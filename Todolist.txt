@@ -15,4 +15,8 @@ Read this text file and do evrything in order as labeled:-
 7.Also now remove all the git that you had made here for backup and remove the hugeproject folder if it contains junk and is not useful and fully organise the code and remove useless lines of code and clean the whole structure and make a good structure and update README.md
 Fully update the code and improve speed and reliability of the website
 
-8.Now I want you to connect this project to my GitHub account and create a repo for this and make it that every change here is reflected to the repository with a script and make the whole folder lightweight
+8.Now I want you to connect this project to my GitHub account and create a repo for this and make it that every change here is reflected to the repository with a script and make the whole folder lightweight.
+
+
+
+This much white glass effect is not looking good reduce it

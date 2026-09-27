@@ -78,7 +78,7 @@
   line-height: 1;
   letter-spacing: -0.04em;
   /* A gold tile with a lit top edge, not a flat square. */
-  box-shadow: 0 10px 26px rgba(240, 180, 41, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.55);
+  box-shadow: 0 10px 26px rgba(240, 180, 41, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
 .wordmark {
@@ -201,8 +201,8 @@
 .ghost {
   /* Glass, so the light behind the screen shows through the button. */
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.06)),
-    linear-gradient(rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.04));
+    linear-gradient(180deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.03)),
+    linear-gradient(rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.03));
   -webkit-backdrop-filter: blur(var(--glass-blur-sm)) saturate(150%);
   backdrop-filter: blur(var(--glass-blur-sm)) saturate(150%);
   color: #fff;
@@ -211,8 +211,8 @@
 
 .ghost:hover {
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0.12)),
-    linear-gradient(rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.08));
+    linear-gradient(180deg, rgba(255, 255, 255, 0.17), rgba(255, 255, 255, 0.07)),
+    linear-gradient(rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05));
 }
 
 .browse {

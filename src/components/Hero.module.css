@@ -161,26 +161,26 @@
 
 /* Translucent "+ My List". */
 .list {
-  background: rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.12);
   color: #fff;
 }
 
 .list:hover {
-  background: rgba(255, 255, 255, 0.26);
+  background: rgba(255, 255, 255, 0.18);
 }
 
 .list[aria-pressed='true'] {
-  background: rgba(255, 255, 255, 0.28);
+  background: rgba(255, 255, 255, 0.2);
 }
 
 /* The third action — the one that opens the title page rather than playing. */
 .more {
-  background: rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.12);
   color: #fff;
 }
 
 .more:hover {
-  background: rgba(255, 255, 255, 0.26);
+  background: rgba(255, 255, 255, 0.18);
 }
 
 .rating {

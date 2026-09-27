@@ -38,11 +38,13 @@
      for a panel: sheen, fill and a gradient border that refracts like the rim
      of a real pane. The two-layer background-image trick is what allows a
      gradient edge on a rounded corner without a pseudo-element. */
-  --glass: rgba(255, 255, 255, 0.14);
-  --glass-2: rgba(255, 255, 255, 0.22);
-  --glass-panel: rgba(18, 18, 22, 0.58);
-  --glass-panel-strong: rgba(12, 12, 14, 0.74);
-  --glass-panel-soft: rgba(255, 255, 255, 0.055);
+  --glass: rgba(255, 255, 255, 0.11);
+  --glass-2: rgba(255, 255, 255, 0.16);
+  /* Fills sit darker than before: the glass should read as dark glass with a
+     hint of light, not a milky white pane. */
+  --glass-panel: rgba(16, 16, 20, 0.68);
+  --glass-panel-strong: rgba(10, 10, 12, 0.82);
+  --glass-panel-soft: rgba(255, 255, 255, 0.04);
   --glass-border: rgba(255, 255, 255, 0.18);
   --glass-border-hi: rgba(255, 255, 255, 0.42);
   --glass-blur-sm: 12px;
@@ -50,18 +52,18 @@
   --glass-blur-lg: 34px;
   /* saturate + a touch of brightness is what makes the blur read as glass
      rather than as a grey smear over artwork. */
-  --glass-filter: blur(var(--glass-blur)) saturate(170%) brightness(1.05);
-  --glass-filter-lg: blur(var(--glass-blur-lg)) saturate(180%) brightness(1.06);
-  --glass-sheen: linear-gradient(180deg, rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.035) 38%, rgba(255, 255, 255, 0) 72%);
-  --glass-edge: linear-gradient(150deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.08) 26%, rgba(255, 255, 255, 0.03) 52%, rgba(255, 255, 255, 0.34));
-  --glass-edge-soft: linear-gradient(150deg, rgba(255, 255, 255, 0.34), rgba(255, 255, 255, 0.05) 40%, rgba(255, 255, 255, 0.18));
+  --glass-filter: blur(var(--glass-blur)) saturate(150%) brightness(1.02);
+  --glass-filter-lg: blur(var(--glass-blur-lg)) saturate(160%) brightness(1.03);
+  --glass-sheen: linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.02) 38%, rgba(255, 255, 255, 0) 72%);
+  --glass-edge: linear-gradient(150deg, rgba(255, 255, 255, 0.34), rgba(255, 255, 255, 0.05) 26%, rgba(255, 255, 255, 0.02) 52%, rgba(255, 255, 255, 0.2));
+  --glass-edge-soft: linear-gradient(150deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.04) 40%, rgba(255, 255, 255, 0.11));
   /* Usage: background: var(--glass-surface); border: 1px solid transparent; */
   --glass-surface: var(--glass-sheen), linear-gradient(var(--glass-panel), var(--glass-panel)) padding-box, var(--glass-edge) border-box;
   --glass-surface-strong: var(--glass-sheen), linear-gradient(var(--glass-panel-strong), var(--glass-panel-strong)) padding-box, var(--glass-edge) border-box;
   --glass-surface-soft: linear-gradient(var(--glass-panel-soft), var(--glass-panel-soft)) padding-box, var(--glass-edge-soft) border-box;
   --glass-shadow: 0 20px 50px rgba(0, 0, 0, 0.62), 0 2px 10px rgba(0, 0, 0, 0.3);
-  --glass-inset: inset 0 1px 0 rgba(255, 255, 255, 0.16), inset 0 -1px 0 rgba(255, 255, 255, 0.05);
-  --glass-glow: inset 0 0 46px rgba(255, 255, 255, 0.035);
+  --glass-inset: inset 0 1px 0 rgba(255, 255, 255, 0.09), inset 0 -1px 0 rgba(255, 255, 255, 0.03);
+  --glass-glow: inset 0 0 46px rgba(255, 255, 255, 0.018);
 
   /* ---- ambient lighting --------------------------------------------------- */
   /* The colours of the light layer behind every page. Gold leads (it is the
@@ -236,8 +238,8 @@ h1, h2, h3 {
     --glass-border-hi: rgba(255, 255, 255, 0.55);
     --text-muted: #d2d2d2;
     --text-dim: #b0b0b0;
-    --glass: rgba(255, 255, 255, 0.18);
-    --glass-2: rgba(255, 255, 255, 0.26);
+    --glass: rgba(255, 255, 255, 0.15);
+    --glass-2: rgba(255, 255, 255, 0.22);
     /* Nearly opaque panels and no coloured light: when a visitor asks for more
        contrast, legibility beats the effect. */
     --glass-panel: rgba(14, 14, 16, 0.86);
