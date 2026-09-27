@@ -58,7 +58,11 @@ echo "Pushing ${branch} to origin…"
 if ! git push -u origin "$branch"; then
   # A missing or rejected token prints differently from a refused push — name
   # the right cure instead of sending the reader to rebase against nothing.
-  if git ls-remote origin >/dev/null 2>&1; then
+  # (A plain ls-remote cannot tell: public repos answer it without any
+  # credentials at all. Ask git's credential system instead.)
+  if printf 'protocol=https\nhost=github.com\n' \
+       | GIT_TERMINAL_PROMPT=0 git credential fill 2>/dev/null \
+       | grep -q '^password='; then
     cat >&2 <<MSG
 
 The push was refused. That usually means the repository on GitHub has commits
