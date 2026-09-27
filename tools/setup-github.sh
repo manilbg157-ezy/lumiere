@@ -14,6 +14,11 @@
 # time on the same GitHub settings page.
 #
 # Run this once; afterwards `npm run sync` pushes without asking again.
+#
+# In a shell where nothing can be typed into a prompt (a web command runner,
+# CI, a cron job), pass the token instead of pasting it:
+#
+#   GH_TOKEN=<paste-your-token> npm run setup:github
 set -euo pipefail
 
 cd "$(dirname "$0")/.."
@@ -39,20 +44,24 @@ if grep -qs 'github.com' "$HOME/.git-credentials" 2>/dev/null; then
   exit 0
 fi
 
-if [ ! -t 0 ]; then
+token="${GH_TOKEN:-}"
+if [ -z "$token" ] && [ ! -t 0 ]; then
   echo "
-No terminal is attached, so the token cannot be asked for here.
-Open a shell in the project folder and run it yourself:
+No terminal is attached, so the token cannot be asked for here. Either open a
+real shell (SSH) in the project folder and run 'npm run setup:github' again,
+or pass the token once on the command line:
 
-  npm run setup:github" >&2
+  GH_TOKEN=<paste-your-token> npm run setup:github" >&2
   exit 1
 fi
 
-echo "
+if [ -z "$token" ]; then
+  echo "
 Create a token at https://github.com/settings/tokens (tick 'repo'), then paste
 it below. Input is hidden, as a password would be."
-printf 'Token: '
-read -r token
+  printf 'Token: '
+  read -r token
+fi
 if [ -z "$token" ]; then
   echo "No token given — nothing stored." >&2
   exit 1
