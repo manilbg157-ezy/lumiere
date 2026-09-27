@@ -39,9 +39,12 @@ Then run this again." >&2
 fi
 echo "Remote: $remote"
 
-if grep -qs 'github.com' "$HOME/.git-credentials" 2>/dev/null; then
-  echo "A stored GitHub credential already exists. Nothing to do — try 'npm run sync'."
-  exit 0
+if printf 'protocol=https\nhost=github.com\n' \
+     | GIT_TERMINAL_PROMPT=0 git credential fill 2>/dev/null \
+     | grep -q '^password='; then
+  echo "A GitHub token is already stored; it will be REPLACED by the new one.
+(Handy when a token lacked the 'repo' scope, or when rotating tokens.)"
+  replacing=1
 fi
 
 token="${GH_TOKEN:-}"

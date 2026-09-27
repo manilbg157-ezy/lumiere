@@ -55,25 +55,14 @@ fi
 
 branch="$(git rev-parse --abbrev-ref HEAD)"
 echo "Pushing ${branch} to origin…"
-if ! git push -u origin "$branch"; then
-  # A missing or rejected token prints differently from a refused push — name
-  # the right cure instead of sending the reader to rebase against nothing.
-  # (A plain ls-remote cannot tell: public repos answer it without any
-  # credentials at all. Ask git's credential system instead.)
-  if printf 'protocol=https\nhost=github.com\n' \
+output="$(mktemp)"
+if ! git push -u origin "$branch" >"$output" 2>&1; then
+  # Diagnose before advising: a missing token, a token without write access
+  # and a genuinely refused push all fail here, and each has a different cure.
+  if ! printf 'protocol=https\nhost=github.com\n' \
        | GIT_TERMINAL_PROMPT=0 git credential fill 2>/dev/null \
        | grep -q '^password='; then
-    cat >&2 <<MSG
-
-The push was refused. That usually means the repository on GitHub has commits
-this copy does not (it was edited elsewhere, or a README was added when the repo
-was created). Bring them in and try again:
-
-  git pull --rebase origin ${branch}
-  npm run sync
-MSG
-  else
-    cat >&2 <<MSG
+    cat >&2 <<'MSG'
 
 GitHub asked for credentials and none are stored on this machine. Run the
 one-time setup — it asks for a Personal Access Token and saves it:
@@ -83,8 +72,33 @@ one-time setup — it asks for a Personal Access Token and saves it:
 then sync again. Create the token at https://github.com/settings/tokens
 (tick 'repo').
 MSG
+  elif grep -q 'Permission to.*denied' "$output"; then
+    cat >&2 <<'MSG'
+
+GitHub accepted the token but denied it write access to this repository.
+The token exists but is too narrow: a classic token needs the 'repo' scope
+ticked, a fine-grained token needs this repo selected with "Contents:
+read and write". Fix it at https://github.com/settings/tokens — either edit
+the token's scopes, or create a new one and re-store it:
+
+  GH_TOKEN=<new-token> npm run setup:github
+
+(The setup script replaces the stored token.) Then sync again.
+MSG
+  else
+    cat >&2 <<MSG
+
+The push was refused. That usually means the repository on GitHub has commits
+this copy does not (it was edited elsewhere, or a README was added when the repo
+was created). Bring them in and try again:
+
+  git pull --rebase origin ${branch}
+  npm run sync
+MSG
   fi
+  rm -f "$output"
   exit 1
 fi
+rm -f "$output"
 
 echo "Synced: $(git remote get-url origin | sed 's#\.git$##')"
