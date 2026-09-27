@@ -56,7 +56,10 @@ fi
 branch="$(git rev-parse --abbrev-ref HEAD)"
 echo "Pushing ${branch} to origin…"
 if ! git push -u origin "$branch"; then
-  cat >&2 <<MSG
+  # A missing or rejected token prints differently from a refused push — name
+  # the right cure instead of sending the reader to rebase against nothing.
+  if git ls-remote origin >/dev/null 2>&1; then
+    cat >&2 <<MSG
 
 The push was refused. That usually means the repository on GitHub has commits
 this copy does not (it was edited elsewhere, or a README was added when the repo
@@ -65,6 +68,18 @@ was created). Bring them in and try again:
   git pull --rebase origin ${branch}
   npm run sync
 MSG
+  else
+    cat >&2 <<MSG
+
+GitHub asked for credentials and none are stored on this machine. Run the
+one-time setup — it asks for a Personal Access Token and saves it:
+
+  npm run setup:github
+
+then sync again. Create the token at https://github.com/settings/tokens
+(tick 'repo').
+MSG
+  fi
   exit 1
 fi
 
