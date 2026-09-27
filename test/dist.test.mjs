@@ -296,7 +296,8 @@ test('the shipped bundle is Lumiere, and every surviving old name is deliberate'
   // university media library, a VOD directory) and was being read as "some
   // Lumiere" rather than as this service.
   assert.match(html, /<title>Lumiere Streaming Service — Movies &amp; TV Series Online<\/title>/, 'the shell title is not the full name')
-  assert.match(html, /<meta property="og:site_name" content="Lumiere Streaming Service">/, 'the share card does not name the service')
+  // The minifier writes these as <meta … />, so the closing slash is optional here.
+  assert.match(html, /<meta property="og:site_name" content="Lumiere Streaming Service"\s*\/?>/, 'the share card does not name the service')
   assert.match(html, /"name"\s*:\s*"Lumiere Streaming Service"/, 'the machine-readable identity is missing')
 
   // The old name may only appear as an identifier a device could already be
