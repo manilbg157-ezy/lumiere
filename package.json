@@ -13,6 +13,7 @@
     "start": "node server.js",
     "icons": "node tools/generate-icons.mjs",
     "sync": "bash tools/sync-github.sh",
+    "setup:github": "bash tools/setup-github.sh",
     "test": "node --test"
   },
   "dependencies": {

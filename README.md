@@ -951,16 +951,23 @@ goes up: `node_modules/`, `dist/` (a build output — deploy by uploading it),
 
 ```bash
 git remote add origin https://github.com/<your-account>/lumiere.git
+npm run setup:github              # stores your Personal Access Token, once
 npm run sync                      # commits everything and pushes
 ```
 
-The first push asks for a username and a password. The password is a **Personal
-Access Token** — create one at https://github.com/settings/tokens (`repo` scope,
-or "Contents: read and write" on a fine-grained token). To be asked only once:
+`setup:github` asks for a **Personal Access Token** — the password GitHub
+needs in place of your account password. Create one at
+https://github.com/settings/tokens (`repo` scope, or "Contents: read and
+write" on a fine-grained token). The script saves it with git's own
+credential helper (`store`, in `~/.git-credentials`), checks it against
+GitHub, and then never asks again. The token lives only on this machine;
+it never enters the repository, and you can revoke it at any time on the
+same GitHub page. (On macOS the helper is `osxkeychain` instead of `store`;
+everything else is the same.)
 
-```bash
-git config --global credential.helper store     # osxkeychain on macOS
-```
+Prefer to do it by hand? `git config --global credential.helper store` and
+let the first `npm run sync` prompt you — the script's only job is to make
+that prompt happen once, ahead of time, and verify the token.
 
 ### Every change after that
 
