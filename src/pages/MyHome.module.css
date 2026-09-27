@@ -1,0 +1,336 @@
+.page {
+  padding-bottom: 1.5rem;
+}
+
+/* ---- profile header ---- */
+
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 4px 2px 18px;
+}
+
+.avatar {
+  flex-shrink: 0;
+  width: 46px;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 19px;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(135deg, #1f6feb, #6f42c1);
+  border-radius: 8px;
+  overflow: hidden;
+  object-fit: cover;
+}
+
+/* ---- profile photo controls ---- */
+
+.photoRow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 0 2px 14px;
+}
+
+.photoBtn {
+  min-height: 36px;
+  padding: 8px 16px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--accent-ink);
+  background: var(--accent);
+  border: none;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+}
+
+.photoBtn:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.photoBtnGhost {
+  min-height: 36px;
+  padding: 8px 16px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+}
+
+.photoBtnGhost:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.photoHint {
+  font-size: 0.74rem;
+  color: var(--text-dim);
+}
+
+.photoError {
+  font-size: 0.8rem;
+  color: #ff6b6b;
+  padding: 0 2px 12px;
+}
+
+.fileInput {
+  display: none;
+}
+
+.profileText {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+}
+
+.profileName {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.profileEmail {
+  font-size: 0.74rem;
+  color: var(--text-dim);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.profileIcon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  color: #fff;
+  background: none;
+  border: none;
+  text-decoration: none;
+}
+
+.note {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  padding: 0 2px 12px;
+}
+
+/* ---- saved card ---- */
+
+.savedCard {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 16px;
+  margin-bottom: 1.8rem;
+  background: var(--glass-surface);
+  -webkit-backdrop-filter: var(--glass-filter);
+  backdrop-filter: var(--glass-filter);
+  border: 1px solid transparent;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--glass-inset), var(--glass-glow);
+  text-decoration: none;
+  transition: background 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+}
+
+.savedCard:hover {
+  background: var(--glass-surface-strong);
+  box-shadow: var(--glass-inset), var(--glass-glow), 0 12px 30px rgba(0, 0, 0, 0.48);
+  transform: translateY(-1px);
+}
+
+.savedIcon {
+  flex-shrink: 0;
+  color: #fff;
+}
+
+.savedText {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.savedTitle {
+  font-size: 1.02rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.savedSub {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+.chev {
+  flex-shrink: 0;
+  color: var(--text-muted);
+}
+
+/* ---- liked grid (poster + Share underneath) ---- */
+
+.section {
+  margin-bottom: 1.9rem;
+}
+
+.heading {
+  font-size: 1.06rem;
+  font-weight: 700;
+  margin-bottom: 0.6rem;
+}
+
+.shareGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(132px, 1fr));
+  gap: 10px;
+}
+
+.shareItem {
+  display: flex;
+  flex-direction: column;
+}
+
+.shareArt {
+  display: block;
+  aspect-ratio: 2 / 3;
+  overflow: hidden;
+  border-radius: var(--radius-card);
+  background: var(--bg-2);
+}
+
+.shareArt img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.shareEmpty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--text-dim);
+}
+
+.shareBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 8px;
+  min-height: 32px;
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: var(--radius);
+}
+
+.shareBtn:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+/* ---- buttons ---- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  padding: 11px 22px;
+  font-size: 0.94rem;
+  font-weight: 700;
+  text-decoration: none;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+
+.btnPrimary {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+.btnGhost {
+  background: rgba(255, 255, 255, 0.14);
+  color: #fff;
+}
+
+.tip {
+  font-size: 0.78rem;
+  color: var(--text-dim);
+  padding: 6px 2px 0;
+}
+
+/* ---- signed out ---- */
+
+.signedOut {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+  padding: 3rem 1rem;
+}
+
+.avatarLarge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 86px;
+  height: 86px;
+  color: var(--text-muted);
+  background: var(--bg-2);
+  border-radius: 50%;
+}
+
+.signedOutTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.signedOutText {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  max-width: 46ch;
+  line-height: 1.55;
+}
+
+.signedOutActions {
+  display: flex;
+  gap: 10px;
+  margin-top: 0.6rem;
+}
+
+.signedOutActions .btn {
+  min-width: 128px;
+}
+
+@media (max-width: 600px) {
+  .shareGrid {
+    grid-template-columns: repeat(auto-fill, minmax(112px, 1fr));
+  }
+
+  .profileName {
+    font-size: 1.02rem;
+  }
+}

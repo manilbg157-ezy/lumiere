@@ -1,0 +1,173 @@
+.row {
+  margin-bottom: 1.9rem;
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 0.6rem;
+}
+
+.heading {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -0.015em;
+  min-width: 0;
+}
+
+/* "Continue Watching for <name>" — the name is quieter than the heading. */
+.subtitle {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.seeAll {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  flex-shrink: 0;
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: #fff;
+  text-decoration: none;
+  opacity: 0.85;
+  transition: opacity 0.18s ease;
+}
+
+.seeAll:hover {
+  opacity: 1;
+  text-decoration: underline;
+}
+
+.empty {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  padding: 6px 2px 10px;
+}
+
+/* ---- scroller ---- */
+
+.wrap {
+  position: relative;
+}
+
+.scroller {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  /* Top padding leaves room for the hover scale-up without clipping it. */
+  padding: 6px 2px 10px;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x proximity;
+  /* swiping a row must not scroll the page sideways */
+  overscroll-behavior-x: contain;
+}
+
+.scroller::-webkit-scrollbar {
+  display: none;
+}
+
+.cell {
+  flex: 0 0 clamp(128px, 16vw, 188px);
+  scroll-snap-align: start;
+  min-width: 0;
+}
+
+/* The wider resume tiles. */
+.scrollerWide {
+  gap: 10px;
+}
+
+.cellWide {
+  flex: 0 0 clamp(232px, 30vw, 300px);
+}
+
+/* Ranked cells carry the numeral plus the tile, so they are wider than the
+   poster alone. */
+.cellRanked {
+  flex: 0 0 clamp(210px, 25vw, 282px);
+}
+
+/* ---- arrows (desktop only; touch devices swipe) ---- */
+
+.arrow {
+  position: absolute;
+  top: 0;
+  bottom: 8px;
+  width: 40px;
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  /* Frosted, not painted black: the row's artwork stays visible under the
+     arrow, which is what keeps the edge of a row from looking cut off. */
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.34), rgba(0, 0, 0, 0.6));
+  backdrop-filter: blur(var(--glass-blur-sm)) saturate(140%);
+  -webkit-backdrop-filter: blur(var(--glass-blur-sm)) saturate(140%);
+  border: none;
+  opacity: 0;
+  transition: opacity 0.2s ease, background 0.2s ease;
+}
+
+.arrow.left {
+  left: -2px;
+}
+
+.arrow.right {
+  right: -2px;
+}
+
+.arrow:hover {
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.8));
+}
+
+/* Hidden until needed, but a keyboard visitor tabbing into one must see it. */
+.wrap:hover .arrow,
+.wrap:focus-within .arrow {
+  opacity: 1;
+}
+
+@media (hover: none) {
+  .arrow {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .row {
+    margin-bottom: 1.5rem;
+  }
+
+  .heading {
+    font-size: 1.08rem;
+  }
+
+  .subtitle {
+    font-size: 0.94rem;
+  }
+
+  .cell {
+    flex-basis: 130px;
+  }
+
+  .cellWide {
+    flex-basis: 232px;
+  }
+
+  .cellRanked {
+    flex-basis: 198px;
+  }
+}

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <!-- The site's name is the brand, spelled out: "Lumiere Streaming Service".
+         Search engines pick the <title> when it describes the page, and fall
+         back to the first heading when it does not — which is how /login once
+         ended up indexed as "Welcome back". Every page therefore sets its own
+         descriptive title (src/lib/seo.js) and the shell carries the full name. -->
+    <title>Lumiere Streaming Service — Movies &amp; TV Series Online</title>
+    <meta name="description" content="Lumiere Streaming Service — watch thousands of movies and TV series online. Trending picks, personal lists, and resume on any device." />
+    <meta name="application-name" content="Lumiere Streaming Service" />
+    <meta property="og:site_name" content="Lumiere Streaming Service" />
+    <meta property="og:title" content="Lumiere Streaming Service — Movies &amp; TV Series Online" />
+    <meta property="og:description" content="Watch thousands of movies and TV series online. Trending picks, personal lists, and resume on any device." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Lumiere Streaming Service" />
+    <link rel="canonical" href="/" />
+    <!-- Machine-readable identity: this is what lets Google print "Lumiere
+         Streaming Service" as the site name above a result instead of guessing
+         from the page it happened to crawl first. Inert data — a crawler reads
+         the text, a browser never executes it. -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "Lumiere Streaming Service",
+        "alternateName": "Lumiere",
+        "url": "https://lumiere.alwaysdata.net/",
+        "inLanguage": "en",
+        "description": "Watch thousands of movies and TV series online — trending picks, personal lists, and resume on any device.",
+        "publisher": {
+          "@type": "Organization",
+          "name": "Lumiere Streaming Service",
+          "url": "https://lumiere.alwaysdata.net/",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://lumiere.alwaysdata.net/icon-512.png"
+          }
+        }
+      }
+    </script>
+    <meta name="theme-color" content="#101010" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <!-- orientation: any — a home-screen web app must be free to rotate; the
+         player requests landscape itself when you go fullscreen. -->
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <meta name="apple-mobile-web-app-title" content="Lumiere" />
+    <meta name="mobile-web-app-title" content="Lumiere" />
+    <!-- File icons first, inline SVG last so browsers that support it pick the
+         crisp scalable version while everything else falls back. -->
+    <link rel="icon" sizes="32x32" href="/favicon.ico" />
+    <link rel="icon" type="image/svg+xml" sizes="any" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23f0b429'/%3E%3Ctext x='16' y='23' font-family='Arial,sans-serif' font-size='18' font-weight='bold' text-anchor='middle' fill='%23101010'%3EL%3C/text%3E%3C/svg%3E" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="mask-icon" href="/icon.svg" color="#f0b429" />
+    <!-- Google Search Console ownership verification for lumiere.alwaysdata.net. -->
+    <meta name="google-site-verification" content="8P30CorfB1Ku_etYthCSsbEPr5E_4EtPm9bTHeNLUhQ" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

@@ -1,0 +1,195 @@
+/* The account screen: a column of frosted rows, each one a change the visitor
+   can make. Danger is carried by a red hairline rather than a red panel, so the
+   screen reads as one calm surface until something is actually destructive. */
+
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 4px 16px 2rem;
+}
+
+.head {
+  padding: 2px 2px 6px;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.sub {
+  margin-top: 6px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.66);
+  word-break: break-word;
+}
+
+/* Signed out — the same card the auth screens use, so it does not feel like an
+   error page. */
+.card {
+  padding: 26px 22px;
+  border-radius: 18px;
+  background: var(--glass-surface);
+  border: 1px solid transparent;
+  box-shadow: var(--glass-shadow), var(--glass-inset), var(--glass-glow);
+  backdrop-filter: var(--glass-filter-lg);
+  -webkit-backdrop-filter: var(--glass-filter-lg);
+}
+
+/* ---- rows ---- */
+
+.row {
+  border-radius: 16px;
+  /* The border stays transparent so the gradient rim in --glass-surface shows
+     through it; anything that wants a coloured ring adds it as a box-shadow
+     instead (see .rowDanger), which cannot fight with the glass. */
+  background: var(--glass-surface);
+  border: 1px solid transparent;
+  box-shadow: var(--glass-inset), var(--glass-glow);
+  backdrop-filter: var(--glass-filter);
+  -webkit-backdrop-filter: var(--glass-filter);
+  transition: box-shadow 0.18s ease, background 0.18s ease, transform 0.18s ease;
+}
+
+.row:hover {
+  box-shadow: var(--glass-inset), var(--glass-glow), 0 10px 28px rgba(0, 0, 0, 0.4);
+  transform: translateY(-1px);
+}
+
+.rowOpen {
+  background: var(--glass-surface-strong);
+  box-shadow: var(--glass-inset), var(--glass-glow), 0 0 0 1px var(--glass-border-hi);
+}
+
+.rowDanger {
+  box-shadow: var(--glass-inset), 0 0 0 1px rgba(255, 107, 107, 0.28);
+}
+
+.rowDanger:hover,
+.rowDanger.rowOpen {
+  box-shadow: var(--glass-inset), 0 0 0 1px rgba(255, 107, 107, 0.55), 0 10px 28px rgba(0, 0, 0, 0.4);
+}
+
+.rowHead {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 16px 18px;
+}
+
+.rowText {
+  min-width: 0;
+}
+
+.rowTitle {
+  font-size: 1rem;
+  font-weight: 650;
+}
+
+.rowValue {
+  margin-top: 4px;
+  font-size: 0.92rem;
+  color: #fff;
+  word-break: break-word;
+}
+
+.rowHint {
+  margin-top: 4px;
+  font-size: 0.8rem;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.rowBtn {
+  flex-shrink: 0;
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--glass-border);
+  background: var(--glass);
+  color: #fff;
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.rowBtn:hover {
+  background: var(--glass-2);
+  border-color: var(--glass-border-hi);
+}
+
+.rowBtn:focus-visible {
+  outline: 2px solid #f0b429;
+  outline-offset: 2px;
+}
+
+/* ---- the open form ---- */
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 4px 18px 18px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.form > form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.small {
+  font-size: 0.78rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.notice {
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: #7fd4a2;
+}
+
+.error {
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: #ff6b6b;
+}
+
+.warn {
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: #ffc9c9;
+  border-left: 2px solid rgba(255, 107, 107, 0.6);
+  padding-left: 10px;
+}
+
+.dangerBtn {
+  border: 1px solid rgba(255, 107, 107, 0.5) !important;
+  background: rgba(255, 107, 107, 0.14) !important;
+  color: #ffd7d7 !important;
+}
+
+.dangerBtn:hover:not(:disabled) {
+  background: rgba(255, 107, 107, 0.24) !important;
+  border-color: rgba(255, 107, 107, 0.8) !important;
+}
+
+@media (max-width: 420px) {
+  .rowHead {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .rowBtn {
+    align-self: flex-start;
+  }
+}

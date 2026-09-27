@@ -1,0 +1,160 @@
+.page {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1.2rem;
+  padding-bottom: calc(2rem + env(safe-area-inset-bottom, 0px));
+}
+
+@supports (min-height: 100dvh) {
+  .page {
+    min-height: 100dvh;
+  }
+}
+
+/* The light behind the card. The sign-in screens are outside the app shell, so
+   they carry their own copy of the ambient layer rather than inheriting one:
+   the same four washes as .ambient in src/index.css, held still (this screen is
+   short — drifting light behind a form you are trying to read is a distraction,
+   and the page is the whole viewport). */
+.aura {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(46% 40% at 14% 4%, var(--light-gold), transparent 62%),
+    radial-gradient(40% 36% at 86% 10%, var(--light-cool), transparent 66%),
+    radial-gradient(52% 44% at 72% 92%, var(--light-rose), transparent 68%),
+    radial-gradient(640px 440px at 50% 6%, var(--accent-soft), transparent 70%),
+    radial-gradient(120% 58% at 50% -16%, rgba(255, 255, 255, 0.06), transparent 62%);
+}
+
+.card {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  padding: 2.2rem 2rem 1.8rem;
+  border-radius: var(--radius-lg);
+  /* Full liquid-glass treatment: top sheen, translucent fill, refracting rim. */
+  border: 1px solid transparent;
+  background: var(--glass-surface);
+  -webkit-backdrop-filter: var(--glass-filter-lg);
+  backdrop-filter: var(--glass-filter-lg);
+  box-shadow: 0 22px 54px rgba(0, 0, 0, 0.7), var(--glass-inset), var(--glass-glow);
+  animation: cardIn 0.35s ease;
+}
+
+/* A specular bloom in the top corner of the pane, the highlight a real sheet of
+   glass throws when the light is above and to one side. */
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(120% 70% at 12% -10%, rgba(255, 255, 255, 0.12), transparent 58%);
+}
+
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(12px) scale(0.995); }
+  to { opacity: 1; transform: none; }
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+/* The app's square mark, matching the splash and the top bar. */
+.mark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-size: 21px;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.wordmark {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.05;
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: #fff;
+}
+
+.wordSub {
+  font-size: 0.55rem;
+  font-weight: 600;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--accent);
+  opacity: 0.85;
+}
+
+.title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  text-align: center;
+  color: #fff;
+  margin-top: 1.1rem;
+  line-height: 1.25;
+}
+
+.sub {
+  font-size: 12.5px;
+  color: var(--text-muted);
+  text-align: center;
+  letter-spacing: 0.02em;
+  margin: 6px 0 1.6rem;
+}
+
+.error {
+  font-size: 12.5px;
+  color: #e0958f;
+  background: rgba(217, 115, 111, 0.1);
+  border: 1px solid rgba(217, 115, 111, 0.28);
+  border-radius: var(--radius-sm);
+  padding: 9px 12px;
+  margin-bottom: 16px;
+  line-height: 1.45;
+}
+
+.note {
+  font-size: 10.5px;
+  color: var(--text-dim);
+  text-align: center;
+  margin-top: 16px;
+  letter-spacing: 0.03em;
+}
+
+.back {
+  margin-top: 14px;
+}
+
+@media (max-width: 600px) {
+  .page {
+    align-items: flex-start;
+    padding-top: calc(2.2rem + env(safe-area-inset-top, 0px));
+  }
+
+  .card {
+    padding: 2rem 1.4rem 1.6rem;
+  }
+
+  .title {
+    font-size: 1.25rem;
+  }
+}

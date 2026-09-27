@@ -1,0 +1,348 @@
+.wrap {
+  margin-bottom: 2.5rem;
+  animation: fadeSlideIn 0.3s ease;
+}
+
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.meta {
+  margin-bottom: 1rem;
+}
+
+.metaTop {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 6px;
+}
+
+.title {
+  font-size: clamp(1.2rem, 3vw, 1.6rem);
+  font-weight: 600;
+  color: #fff;
+  line-height: 1.2;
+}
+
+.closeBtn {
+  background: var(--glass);
+  backdrop-filter: blur(var(--glass-blur-sm));
+  -webkit-backdrop-filter: blur(var(--glass-blur-sm));
+  border: 1px solid var(--glass-border);
+  color: var(--text-dim);
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  font-size: 12px;
+  flex-shrink: 0;
+  transition: color 0.2s, border-color 0.2s;
+  cursor: pointer;
+  margin-top: 4px;
+}
+
+.closeBtn:hover {
+  color: #ccc;
+  border-color: #555;
+}
+
+.pills {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+
+.pill {
+  padding: 3px 10px;
+  background: var(--glass);
+  backdrop-filter: blur(var(--glass-blur-sm));
+  -webkit-backdrop-filter: blur(var(--glass-blur-sm));
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-pill);
+  font-size: 11px;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+}
+
+.gold {
+  border-color: rgba(200, 169, 110, 0.3);
+  color: var(--gold);
+}
+
+.badge {
+  border-color: rgba(200, 169, 110, 0.2);
+  color: rgba(200, 169, 110, 0.85);
+}
+
+.overview {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.65;
+  max-width: 700px;
+}
+
+.sourceRow {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.sourceChip {
+  padding: 6px 14px;
+  min-height: 32px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--glass-border);
+  background: var(--glass);
+  backdrop-filter: blur(var(--glass-blur-sm));
+  -webkit-backdrop-filter: blur(var(--glass-blur-sm));
+  color: var(--text-muted);
+  font-size: 12px;
+  font-family: var(--font);
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.sourceChip:hover {
+  border-color: var(--border-hover);
+  color: #fff;
+}
+
+.sourceActive {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-ink);
+  font-weight: 600;
+}
+
+.sourcePending {
+  padding: 6px 14px;
+  min-height: 32px;
+  display: inline-flex;
+  align-items: center;
+  border-radius: var(--radius-pill);
+  border: 1px dashed var(--glass-border-hi);
+  background: var(--glass);
+  color: var(--text-dim);
+  font-size: 12px;
+  font-family: var(--font);
+  letter-spacing: 0.03em;
+  animation: pendingPulse 1.4s ease-in-out infinite;
+}
+
+@keyframes pendingPulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+/* Shown when a stream dies and we silently hop to the next server */
+.notice {
+  font-size: 12px;
+  color: var(--text-dim);
+  margin: 0 0 10px;
+  letter-spacing: 0.02em;
+}
+
+.playerLoading {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.errorBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: clamp(220px, 50vw, 560px);
+  padding: 0 1.2rem;
+}
+
+/* the shared error card sits flush inside the black player frame */
+.errorBox > * {
+  margin-bottom: 0;
+  max-width: 560px;
+}
+
+.playerBox {
+  background: #000;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 22px 50px rgba(0, 0, 0, 0.5);
+  position: relative;
+}
+
+.playerBox iframe {
+  display: block;
+  width: 100%;
+  height: clamp(220px, 50vw, 560px);
+  border: none;
+}
+
+.playerBox video {
+  display: block;
+  width: 100%;
+  max-height: clamp(220px, 50vw, 560px);
+  object-fit: contain;
+  background: #000;
+}
+
+/* ---- fullscreen ---- */
+/* Without these the container goes fullscreen but the video keeps its small
+   fixed height and sits in a black void. */
+.playerBox:fullscreen {
+  width: 100vw;
+  height: 100vh;
+  border: none;
+  border-radius: 0;
+}
+
+.playerBox:fullscreen iframe,
+.playerBox:fullscreen video {
+  width: 100%;
+  height: 100%;
+  max-height: 100%;
+}
+
+/* Fallback for browsers with no element fullscreen (iPhone Safari): we simply
+   pin the player over the viewport ourselves. */
+.expanded {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  border: none;
+  border-radius: 0;
+}
+
+.expanded iframe,
+.expanded video {
+  width: 100%;
+  height: 100%;
+  max-height: 100%;
+}
+
+/* The fallback covers the page, so it needs its own way out. */
+.exitBtn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 3;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(0, 0, 0, 0.65);
+  color: #fff;
+  font-size: 14px;
+  font-family: var(--font);
+}
+
+.exitBtn:hover {
+  background: rgba(0, 0, 0, 0.85);
+}
+
+/* Fullscreen / rotate affordance, pinned to the end of the server row. */
+.fsBtn {
+  margin-left: auto;
+  flex-shrink: 0;
+  padding: 6px 14px;
+  min-height: 32px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--glass-border);
+  background: var(--glass);
+  backdrop-filter: blur(var(--glass-blur-sm));
+  -webkit-backdrop-filter: blur(var(--glass-blur-sm));
+  color: var(--text-muted);
+  font-size: 12px;
+  font-family: var(--font);
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+  transition: all 0.15s;
+}
+
+.fsBtn:hover {
+  border-color: var(--border-hover);
+  color: #fff;
+}
+
+.fsBtn[aria-pressed='true'] {
+  border-color: rgba(240, 180, 41, 0.5);
+  color: var(--accent);
+}
+
+/* ---- mobile ---- */
+@media (max-width: 700px) {
+  .wrap {
+    margin-bottom: 2rem;
+  }
+
+  /* Servers stay wrapped and fully visible — no horizontal scroll that hides
+     half the list. Slightly tighter gap keeps the wrapped rows compact. */
+  .sourceRow {
+    gap: 7px;
+  }
+
+  .sourceChip,
+  .sourcePending,
+  .fsBtn {
+    min-height: 40px;
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 15px;
+  }
+
+  .closeBtn {
+    width: 40px;
+    height: 40px;
+    margin-top: 0;
+  }
+
+  .overview {
+    font-size: 13.5px;
+  }
+}
+
+@media (max-width: 480px) {
+  .playerBox iframe {
+    height: 230px;
+  }
+}
+
+/* ---- landscape phones ---- */
+/* Rotating should actually buy you a bigger picture: the video claims the
+   whole screen height and the chips scroll off, app-style. */
+@media (orientation: landscape) and (max-height: 620px) {
+  .wrap {
+    margin-bottom: 1.5rem;
+  }
+
+  .playerBox iframe,
+  .playerBox video {
+    height: 100vh;
+    max-height: 100vh;
+  }
+}
+
+@supports (height: 100dvh) {
+  @media (orientation: landscape) and (max-height: 620px) {
+    .playerBox iframe,
+    .playerBox video {
+      height: 100dvh;
+      max-height: 100dvh;
+    }
+  }
+}

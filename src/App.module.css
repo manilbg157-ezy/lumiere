@@ -1,0 +1,697 @@
+/* The shell: a black top bar, the chips under it, and the floating tab
+   bar on phones — the chrome from the Netflix app screenshots.
+
+   Layout rule for the whole file: the top bar and the chips are the only
+   persistent things at the top; the tab bar is fixed at the bottom on narrow
+   screens and disappears on wide ones, where the chips carry the navigation. */
+
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  /* Transparent on purpose: the black canvas is html/body, and the ambient
+     light layer sits between it and the content, so every page inside this
+     shell is lit by the same source. */
+  background: transparent;
+}
+
+@supports (min-height: 100dvh) {
+  .app {
+    min-height: 100dvh;
+  }
+}
+
+/* Keyboard visitors need a way past the persistent chrome (WCAG 2.4.1).
+   Off-screen until focused, then it drops in. */
+.skip {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  z-index: 1000;
+  padding: 11px 18px;
+  border-radius: var(--radius);
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+  transform: translateY(-160%);
+  transition: transform 0.18s ease;
+}
+
+.skip:focus-visible {
+  transform: none;
+}
+
+/* ---- top bar ---- */
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 300;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: calc(56px + env(safe-area-inset-top, 0px));
+  padding: env(safe-area-inset-top, 0px) clamp(1rem, 4vw, 2.2rem) 0;
+  /* Frosted glass, so the artwork behind the bar stays visible and only the
+     chrome is a surface. `background-color` (not a gradient) is what animates,
+     so the translucent/transparent switch below can cross-fade.
+     NOTE: the blur lives on ::before (below) rather than here, because a
+     backdrop-filter on a sticky element that is animating its background can
+     flicker in Safari. */
+  background-color: rgba(0, 0, 0, 0.34);
+  transition: background-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.topbar::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  /* The sheen is painted with the frost, not on the bar itself, so it fades in
+     and out with it. */
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.015) 58%, rgba(255, 255, 255, 0));
+  -webkit-backdrop-filter: var(--glass-filter);
+  backdrop-filter: var(--glass-filter);
+  transition: opacity 0.25s ease;
+}
+
+/* At the top of Home the bar disappears into the page, letting the featured
+   artwork be the first thing on screen. */
+.topbarOverHero {
+  background-color: transparent;
+}
+
+.topbarOverHero::before {
+  opacity: 0;
+}
+
+/* Once scrolled it becomes a frosted bar that lifts off the content. */
+.topbarScrolled {
+  background-color: rgba(0, 0, 0, 0.42);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45), var(--glass-glow);
+}
+
+/* The refracting bottom rim — a bright hairline that appears with the frost,
+   which is what makes the bar read as a pane of glass rather than a gradient. */
+.topbar::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3) 16%, rgba(255, 255, 255, 0.1) 58%, transparent);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  pointer-events: none;
+}
+
+.topbarScrolled::after {
+  opacity: 1;
+}
+
+.wordmark {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+/* The square "W", the app's stand-in for the Netflix N. */
+.mark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 6px;
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-size: 19px;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.wordtext {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.06;
+  font-size: 1.08rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: #fff;
+}
+
+/* The second half of the site's name. Present but quiet: the wordmark still
+   reads as "Lumiere" at a glance, and the full name is what a search result,
+   a shared link and the installed app are called. */
+.wordSub {
+  font-size: 0.5rem;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--accent);
+  opacity: 0.85;
+  white-space: nowrap;
+}
+
+.pageTitle {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+.topActions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.iconBtn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  color: #fff;
+  background: none;
+  border: none;
+  border-radius: 50%;
+  transition: background 0.18s ease;
+}
+
+.iconBtn:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* The red count on the bell. */
+.badge {
+  position: absolute;
+  top: 3px;
+  right: 2px;
+  min-width: 17px;
+  height: 17px;
+  padding: 0 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--accent-ink);
+  background: var(--accent);
+  border-radius: 999px;
+}
+
+/* ---- account ---- */
+
+.user {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 2px;
+}
+
+.authLinks {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.signIn {
+  padding: 8px 16px;
+  min-height: 36px;
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--accent-ink);
+  background: var(--accent);
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  text-decoration: none;
+  transition: background 0.18s ease;
+}
+
+.signIn:hover {
+  background: var(--accent-hover);
+}
+
+.signInGhost {
+  padding: 8px 16px;
+  min-height: 36px;
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+  font-size: 13px;
+  font-weight: 600;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  text-decoration: none;
+  transition: background 0.18s ease;
+}
+
+.signInGhost:hover {
+  background: rgba(255, 255, 255, 0.22);
+}
+
+.avatar {
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(135deg, #1f6feb, #6f42c1);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+/* An uploaded avatar fills the button; the initial stays as the fallback. */
+.avatarImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 238px;
+  max-width: calc(100vw - 24px);
+  padding: 6px 0;
+  background: var(--glass-surface-strong);
+  -webkit-backdrop-filter: var(--glass-filter-lg);
+  backdrop-filter: var(--glass-filter-lg);
+  border: 1px solid transparent;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.55), var(--glass-inset), var(--glass-glow);
+  overflow: hidden;
+  z-index: 400;
+  animation: menuIn 0.14s ease;
+}
+
+@keyframes menuIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: none; }
+}
+
+.menuHead {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 12px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.menuName {
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.menuEmail {
+  font-size: 11px;
+  color: var(--text-dim);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.menuItem {
+  display: block;
+  width: 100%;
+  padding: 11px 14px;
+  border: none;
+  background: none;
+  color: var(--text-muted);
+  font-size: 13.5px;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.menuItem:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+
+/* ---- support popover ---- */
+
+.supportWrap {
+  position: relative;
+}
+
+.supportBtn {
+  padding: 8px 14px;
+  min-height: 36px;
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: none;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+
+.supportBtn:hover,
+.supportBtn[aria-expanded='true'] {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.14);
+  -webkit-backdrop-filter: blur(var(--glass-blur-sm));
+  backdrop-filter: blur(var(--glass-blur-sm));
+}
+
+.supportPop {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  min-width: 252px;
+  max-width: calc(100vw - 24px);
+  padding: 13px 14px;
+  background: var(--glass-surface-strong);
+  -webkit-backdrop-filter: var(--glass-filter-lg);
+  backdrop-filter: var(--glass-filter-lg);
+  border: 1px solid transparent;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.55), var(--glass-inset), var(--glass-glow);
+  z-index: 400;
+  animation: menuIn 0.14s ease;
+}
+
+.supportHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.supportTitle {
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.supportClose {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  color: var(--text-muted);
+  background: rgba(255, 255, 255, 0.08);
+  border: none;
+  border-radius: 50%;
+}
+
+.supportClose:hover {
+  color: #fff;
+}
+
+.supportText {
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--text-muted);
+  overflow-wrap: anywhere;
+}
+
+.supportMail {
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.supportMail:hover {
+  text-decoration: underline;
+}
+
+.copyBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+  padding: 8px 14px;
+  min-height: 34px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.12);
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+
+.copyBtn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.copyDone {
+  color: #000;
+  background: #fff;
+}
+
+/* The Terms / Privacy links at the foot of the support popover — the only way
+   to reach the legal pages while signed out. */
+.supportLinks {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 10px;
+  font-size: 0.78rem;
+  color: var(--text-dim);
+}
+
+.supportLinks a {
+  color: var(--text-muted);
+  text-decoration: none;
+}
+
+.supportLinks a:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+/* ---- chips ---- */
+
+.chips {
+  position: sticky;
+  top: calc(56px + env(safe-area-inset-top, 0px));
+  z-index: 250;
+  padding: 4px clamp(1rem, 4vw, 2.2rem) 10px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(0, 0, 0, 0.28));
+  -webkit-backdrop-filter: var(--glass-filter);
+  backdrop-filter: var(--glass-filter);
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+  padding: 7px 15px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #fff;
+  /* Sheen over a translucent fill, plus a refracting rim — a small pane. */
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.05)),
+    linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1)) padding-box,
+    var(--glass-edge-soft) border-box;
+  -webkit-backdrop-filter: blur(var(--glass-blur-sm)) saturate(150%);
+  backdrop-filter: blur(var(--glass-blur-sm)) saturate(150%);
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 0.18s ease, color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.chip:hover {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.26), rgba(255, 255, 255, 0.12)),
+    linear-gradient(rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.16)) padding-box,
+    var(--glass-edge-soft) border-box;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3), var(--glass-inset);
+}
+
+.chipActive {
+  color: #000;
+  background: var(--chip-active);
+  box-shadow: 0 6px 20px rgba(255, 255, 255, 0.16);
+}
+
+/* ---- content ---- */
+
+.main {
+  position: relative;
+  /* Above the ambient light layer (z-index 0), which is what lets the light
+     show through the translucent panels instead of being painted over. */
+  z-index: 1;
+  flex: 1;
+  width: 100%;
+  max-width: 1560px;
+  margin: 0 auto;
+  padding: 0.4rem clamp(1rem, 4vw, 2.2rem) 2.4rem;
+  /* Land below the sticky chrome when the skip link jumps here. */
+  scroll-margin-top: 90px;
+}
+
+.emptyState {
+  padding: 2.4rem 0.2rem;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  max-width: 52ch;
+}
+
+.emptyState strong {
+  color: #fff;
+}
+
+/* ---- bottom tab bar (phones) ---- */
+
+.tabbar {
+  position: fixed;
+  left: 12px;
+  right: 12px;
+  bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+  z-index: 500;
+  display: flex;
+  align-items: stretch;
+  height: 60px;
+  padding: 6px;
+  background: var(--glass-surface-strong);
+  -webkit-backdrop-filter: var(--glass-filter-lg);
+  backdrop-filter: var(--glass-filter-lg);
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.5), var(--glass-inset), var(--glass-glow);
+}
+
+.tab {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  min-height: 44px;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--text-dim);
+  text-decoration: none;
+  border-radius: var(--radius-pill);
+  transition: color 0.18s ease, background 0.18s ease;
+}
+
+.tab:hover {
+  color: #fff;
+}
+
+.tabActive {
+  color: #fff;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.08)),
+    linear-gradient(rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.06));
+  box-shadow: var(--glass-inset);
+}
+
+/* On wide screens the chips and the top bar carry the navigation, so the tab
+   bar goes away — as it does in the desktop player. */
+@media (min-width: 861px) {
+  .tabbar {
+    display: none;
+  }
+}
+
+/* The tab bar floats over the content, so the last row needs room to clear it. */
+@media (max-width: 860px) {
+  .app {
+    padding-bottom: calc(84px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .topbar {
+    height: calc(54px + env(safe-area-inset-top, 0px));
+  }
+
+  .chips {
+    top: calc(54px + env(safe-area-inset-top, 0px));
+  }
+
+  .main {
+    padding-bottom: 1.6rem;
+  }
+}
+
+@media (max-width: 600px) {
+  /* Netflix shrinks the wordmark to just its mark on a phone, which is what
+     makes room for the page title and the two icons. The full name is still
+     there for anyone who inspects the page, the manifest or a share card. */
+  .wordtext {
+    display: none;
+  }
+
+  .pageTitle {
+    font-size: 1.05rem;
+  }
+
+  .topbar {
+    padding-left: 0.9rem;
+    padding-right: 0.9rem;
+    gap: 9px;
+  }
+
+  .chips {
+    padding-left: 0.9rem;
+    padding-right: 0.9rem;
+  }
+
+  .main {
+    padding-left: 0.9rem;
+    padding-right: 0.9rem;
+  }
+
+  .iconBtn {
+    width: 36px;
+    height: 36px;
+  }
+
+  .avatar {
+    width: 32px;
+    height: 32px;
+  }
+
+  /* Three controls plus the title is too tight for the ghost button. */
+  .signInGhost {
+    display: none;
+  }
+}

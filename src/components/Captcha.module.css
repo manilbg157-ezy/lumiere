@@ -1,0 +1,56 @@
+/* reCAPTCHA renders its own iframe sized to the widget; this only centres it,
+   reserves its height so the card does not jump, and gives the loading and
+   failure states somewhere to sit. */
+.wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  margin: 4px 0 2px;
+  min-height: 78px;
+}
+
+.loading {
+  margin: 0;
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.failed {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.failedText {
+  margin: 0;
+  font-size: 0.78rem;
+  color: #ff6b6b;
+  text-align: center;
+}
+
+/* Recovering in place beats the old advice to reload the page: reloading also
+   throws away everything typed into the form. */
+.retry {
+  padding: 7px 18px;
+  border-radius: 999px;
+  border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.16));
+  background: var(--glass, rgba(255, 255, 255, 0.12));
+  color: #fff;
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.retry:hover {
+  background: var(--glass-2, rgba(255, 255, 255, 0.18));
+  border-color: var(--glass-border-hi, rgba(255, 255, 255, 0.36));
+}
+
+.retry:focus-visible {
+  outline: 2px solid #f0b429;
+  outline-offset: 2px;
+}

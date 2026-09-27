@@ -1,0 +1,73 @@
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  font-family: var(--font);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 0.18s, border-color 0.18s, color 0.18s, transform 0.15s, box-shadow 0.18s;
+}
+
+.btn:disabled,
+.btn[aria-disabled='true'] {
+  opacity: 0.45;
+  cursor: default;
+  transform: none;
+}
+
+/* ---- sizes ---- */
+
+.md { padding: 10px 22px; min-height: 42px; font-size: 14px; }
+.lg { padding: 13px 28px; min-height: 50px; font-size: 15.5px; }
+
+.block { width: 100%; }
+
+/* ---- variants ---- */
+
+.primary {
+  background: var(--accent);
+  color: var(--accent-ink);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.35);
+}
+
+.primary:hover:not(:disabled) {
+  background: var(--accent-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.45);
+}
+
+/* The bright action OTT apps use on artwork (Play on a backdrop). */
+.light {
+  background: #fff;
+  color: #0b0c10;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.4);
+}
+
+.light:hover:not(:disabled) {
+  background: #eef0f4;
+  color: #0b0c10;
+  transform: translateY(-1px);
+}
+
+.ghost {
+  background: transparent;
+  border-color: var(--border);
+  color: var(--text-muted);
+}
+
+.ghost:hover:not(:disabled) {
+  border-color: var(--glass-border-hi);
+  color: #fff;
+}
+
+/* Comfortable tap targets on phones — 44px is the usual minimum. */
+@media (max-width: 700px) {
+  .md { min-height: 46px; }
+  .lg { min-height: 52px; font-size: 16px; }
+}

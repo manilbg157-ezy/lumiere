@@ -1,0 +1,320 @@
+/* A card is one artwork tile plus, when ranked, the numeral beside it. */
+.wrap {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  animation: fadeIn 0.35s ease both;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.card {
+  display: block;
+  flex: 1;
+  min-width: 0;
+  color: inherit;
+  text-decoration: none;
+  border-radius: var(--radius-card);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+/* ---- artwork ---- */
+
+.art {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  overflow: hidden;
+  background: var(--bg-2);
+  border-radius: var(--radius-card);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.landscape .art {
+  aspect-ratio: 16 / 9;
+}
+
+.art img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.35s ease;
+}
+
+.noArt {
+  color: var(--text-dim);
+}
+
+/* The white play disc Netflix centres on a resume tile. */
+.playCircle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 46px;
+  height: 46px;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #000;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.45);
+  transition: background 0.2s ease;
+}
+
+.playCircle svg {
+  margin-left: 2px; /* optical centring of the triangle */
+}
+
+/* "TOP 10" corner flag. */
+.badge {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 3px 6px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  line-height: 1.2;
+  color: var(--accent-ink);
+  background: var(--badge-red);
+  border-radius: var(--radius-card) 0 6px 0;
+}
+
+/* "Recently added" / "New Episode" strip along the bottom of the artwork. */
+.tag {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 4px 6px;
+  font-size: 10.5px;
+  font-weight: 700;
+  text-align: center;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.78);
+}
+
+/* ---- resume progress ---- */
+
+.progressTrack {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.32);
+}
+
+.progressFill {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+}
+
+/* ---- caption (landscape tiles only) ---- */
+
+.caption {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 9px 2px 2px;
+}
+
+.captionTitle {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #fff;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.captionSub {
+  font-size: 11.5px;
+  color: var(--text-dim);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ---- Top 10 numeral ---- */
+
+.ranked {
+  gap: 2px;
+}
+
+.rank {
+  flex: 0 0 auto;
+  margin-bottom: 26%;
+  font-size: 5.4rem;
+  line-height: 0.72;
+  font-weight: 900;
+  letter-spacing: -0.08em;
+  color: #000;
+  -webkit-text-stroke: 2px #9a9a9a;
+  user-select: none;
+}
+
+/* ---- hover / focus ---- */
+
+.card:hover,
+.card:focus-visible {
+  transform: scale(1.04);
+}
+
+.card:hover .art img {
+  transform: scale(1.06);
+}
+
+.card:hover .playCircle {
+  background: #fff;
+}
+
+/* Lift the hovered tile over its neighbours in the strip. */
+.wrap:hover,
+.wrap:focus-within {
+  z-index: 4;
+}
+
+.wrap:hover .card,
+.wrap:focus-within .card {
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.62);
+}
+
+/* ---- hover quick actions (pointer devices only) ---- */
+
+.hoverBar {
+  position: absolute;
+  right: 6px;
+  bottom: 6px;
+  z-index: 3;
+  display: flex;
+  gap: 6px;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.18s ease, transform 0.18s ease;
+  pointer-events: none;
+}
+
+.wrap:hover .hoverBar,
+.wrap:focus-within .hoverBar {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+
+.hoverBtn {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  transition: background 0.18s ease, color 0.18s ease;
+}
+
+.hoverBtn:hover {
+  background: #fff;
+  color: #000;
+}
+
+.hoverBtn[aria-pressed='true'] {
+  background: #fff;
+  color: #000;
+}
+
+/* ---- save button (app builds) ---- */
+
+.saveBtn {
+  position: absolute;
+  right: 6px;
+  bottom: 6px;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.68);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 50%;
+  transition: background 0.18s ease, color 0.18s ease;
+}
+
+.saveBtn:active {
+  transform: scale(0.92);
+}
+
+.saveOn {
+  color: #000;
+  background: #fff;
+  border-color: #fff;
+}
+
+/* ---- action strip (optional) ---- */
+
+.actions {
+  display: flex;
+  gap: 6px;
+  padding: 8px 2px 0;
+}
+
+.actBtn {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 50%;
+}
+
+.actBtn[aria-pressed='true'] {
+  background: #fff;
+  color: #000;
+}
+
+/* Touch devices never fire :hover, so the resume affordance is always visible
+   and the scale-up is switched off (it would leave gaps in a swipe row). */
+@media (hover: none) {
+  .card:hover,
+  .card:focus-visible {
+    transform: none;
+  }
+
+  /* No pointer to hover with, so the quick actions never appear — the title
+     page carries the same actions under a thumb. */
+  .hoverBar {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .rank {
+    font-size: 4rem;
+    -webkit-text-stroke-width: 1.6px;
+  }
+
+  .playCircle {
+    width: 38px;
+    height: 38px;
+  }
+
+  .captionTitle {
+    font-size: 12.5px;
+  }
+}

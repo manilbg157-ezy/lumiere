@@ -1,0 +1,268 @@
+.wrap {
+  display: block;
+}
+
+/* ---- hero ---- */
+
+.hero {
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  margin-bottom: 2.2rem;
+  /* A lit rim rather than a flat border: the hero is a framed pane of glass
+     over the backdrop, so it catches light on its top edge. The fill and the
+     rim are two background layers with different clips — the fill covers the
+     padding box, the gradient is left showing only in the 1px border ring. */
+  background:
+    linear-gradient(var(--bg-2), var(--bg-2)) padding-box,
+    var(--glass-edge) border-box;
+  border: 1px solid transparent;
+  box-shadow: 0 26px 60px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.16), var(--glass-glow);
+}
+
+.backdrop {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.5;
+}
+
+.shade {
+  position: relative;
+  display: flex;
+  gap: clamp(1rem, 3vw, 2rem);
+  padding: clamp(1.2rem, 3vw, 2.2rem);
+  /* The scrim over the artwork, with a sheen across its top so the glass rim
+     above reads as part of the same pane. */
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0) 34%),
+    linear-gradient(
+      180deg,
+      rgba(7, 8, 11, 0.44) 0%,
+      rgba(7, 8, 11, 0.86) 62%,
+      rgba(7, 8, 11, 0.95) 100%
+    );
+}
+
+.poster {
+  flex: 0 0 190px;
+  width: 190px;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+  border-radius: var(--radius);
+  border: 1px solid transparent;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.14);
+}
+
+.info {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.kicker {
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.title {
+  font-size: clamp(1.5rem, 4vw, 2.4rem);
+  line-height: 1.15;
+  font-weight: 700;
+  color: #fff;
+}
+
+.metaRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+
+/* The maturity badge — a small bordered box, the way Netflix prints "TV-MA". */
+.cert {
+  align-self: center;
+  padding: 0 6px;
+  font-size: 11.5px;
+  line-height: 18px;
+  color: var(--text-muted);
+  border: 1px solid rgba(255, 255, 255, 0.34);
+  border-radius: 3px;
+}
+
+.gold {
+  color: var(--gold);
+}
+
+.genres {
+  font-size: 13px;
+  color: var(--text-dim);
+  letter-spacing: 0.02em;
+}
+
+.tagline {
+  font-size: 13px;
+  font-style: italic;
+  color: var(--text-muted);
+}
+
+.overview {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #cfcfcf;
+  max-width: 78ch;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-top: 6px;
+}
+
+.hint {
+  font-size: 12px;
+  color: var(--text-dim);
+  max-width: 46ch;
+}
+
+/* ---- sections ---- */
+
+.section {
+  margin-bottom: 2rem;
+}
+
+.sectionTitle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 0.9rem;
+}
+
+.sectionTitle::before {
+  content: '';
+  width: 3px;
+  height: 16px;
+  border-radius: 2px;
+  background: linear-gradient(180deg, var(--accent), rgba(240, 180, 41, 0.25));
+}
+
+/* ---- loading ---- */
+
+.skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+}
+
+.skeletonBackdrop {
+  height: clamp(220px, 40vw, 340px);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--glass-border);
+  background: linear-gradient(100deg, rgba(255, 255, 255, 0.03) 30%, rgba(255, 255, 255, 0.09) 50%, rgba(255, 255, 255, 0.03) 70%), var(--glass-panel);
+  background-size: 220% 100%;
+  animation: shimmer 1.4s linear infinite;
+}
+
+.skeletonLines {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.skeletonLines span {
+  height: 14px;
+  border-radius: 6px;
+  background: var(--glass);
+}
+
+.skeletonLines span:first-child {
+  width: 45%;
+  height: 22px;
+}
+
+.skeletonLines span:last-child {
+  width: 70%;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeletonBackdrop {
+    animation: none;
+  }
+}
+
+/* ---- mobile: poster above the text ---- */
+
+/* ---- save / like / list, beside the Play button ---- */
+
+.iconAction {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 50px;
+  padding: 11px 16px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: var(--radius);
+  transition: background 0.18s, border-color 0.18s;
+}
+
+.iconAction:hover {
+  background: rgba(255, 255, 255, 0.22);
+}
+
+.iconActionOn {
+  color: #000;
+  background: #fff;
+  border-color: #fff;
+}
+
+@media (max-width: 700px) {
+  .shade {
+    flex-direction: column;
+  }
+
+  .iconAction {
+    flex: 1 1 auto;
+    justify-content: center;
+    font-size: 12.5px;
+    padding: 11px 12px;
+  }
+
+  .poster {
+    flex: 0 0 auto;
+    width: 132px;
+    align-self: flex-start;
+  }
+
+  .overview {
+    font-size: 13.5px;
+  }
+
+  .actions > :first-child {
+    width: 100%;
+  }
+
+  .hint {
+    max-width: none;
+  }
+}

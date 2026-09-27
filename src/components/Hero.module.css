@@ -1,0 +1,294 @@
+/* The featured card: an inset, rounded artwork panel with the title printed over
+   it and the two actions beneath — the shape the Netflix app uses on Home. */
+.hero {
+  position: relative;
+  isolation: isolate;
+  margin-bottom: 1.7rem;
+}
+
+.art {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border-radius: 10px;
+  aspect-ratio: 16 / 10;
+  background: linear-gradient(180deg, #1c1c1c, #0d0d0d);
+  text-decoration: none;
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.6);
+}
+
+@supports not (aspect-ratio: 1) {
+  .art {
+    min-height: 380px;
+  }
+}
+
+.art img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 22%;
+  animation: heroIn 0.7s ease;
+}
+
+@keyframes heroIn {
+  from { opacity: 0.35; transform: scale(1.02); }
+  to { opacity: 1; transform: none; }
+}
+
+/* Bottom fade so the title artwork has something to sit on. */
+.scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.06) 0%,
+    rgba(0, 0, 0, 0.12) 38%,
+    rgba(0, 0, 0, 0.62) 76%,
+    rgba(0, 0, 0, 0.88) 100%
+  );
+}
+
+/* The title, printed the way an OTT card prints a logo lockup. */
+.titleArt {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 12%;
+  padding: 0 18px;
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 5.8vw, 3.3rem);
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  line-height: 1.08;
+  text-transform: uppercase;
+  color: #fff;
+  text-shadow: 0 4px 26px rgba(0, 0, 0, 0.78), 0 1px 3px rgba(0, 0, 0, 0.9);
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px 4px 0;
+  animation: rise 0.45s ease;
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* "Film · Sentimental · Heartfelt · Drama · Parenthood" */
+.tags {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: #dcdcdc;
+}
+
+.dot {
+  color: #8c8c8c;
+}
+
+.overview {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--text-muted);
+  text-align: center;
+  max-width: 68ch;
+  margin: 0 auto;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ---- actions ---- */
+
+.actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 2px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 50px;
+  padding: 12px 18px;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  border: none;
+  border-radius: var(--radius);
+  transition: background 0.18s ease, transform 0.15s ease;
+}
+
+/* Play keeps the wide slot; My List and More Info share the rest. */
+.play {
+  flex: 2;
+}
+
+.list,
+.more {
+  flex: 1;
+}
+
+.btn:active {
+  transform: scale(0.985);
+}
+
+/* White "Play Movie" — the one primary action on the screen. */
+.play {
+  background: #fff;
+  color: #000;
+}
+
+.play:hover {
+  background: #e6e6e6;
+}
+
+/* Translucent "+ My List". */
+.list {
+  background: rgba(255, 255, 255, 0.18);
+  color: #fff;
+}
+
+.list:hover {
+  background: rgba(255, 255, 255, 0.26);
+}
+
+.list[aria-pressed='true'] {
+  background: rgba(255, 255, 255, 0.28);
+}
+
+/* The third action — the one that opens the title page rather than playing. */
+.more {
+  background: rgba(255, 255, 255, 0.18);
+  color: #fff;
+}
+
+.more:hover {
+  background: rgba(255, 255, 255, 0.26);
+}
+
+.rating {
+  font-size: 0.78rem;
+  color: var(--text-dim);
+  text-align: center;
+}
+
+/* ---- slide indicators ---- */
+
+.progress {
+  position: absolute;
+  right: 12px;
+  bottom: 12%;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.bar {
+  width: 22px;
+  height: 15px;
+  padding: 0;
+  border: none;
+  background: none;
+  position: relative;
+}
+
+.bar::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 6px;
+  height: 2.5px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.34);
+}
+
+.barFill {
+  position: absolute;
+  left: 0;
+  top: 6px;
+  height: 2.5px;
+  width: 0;
+  border-radius: 2px;
+  background: #fff;
+}
+
+.barActive .barFill {
+  animation: fillBar 9s linear forwards;
+}
+
+@keyframes fillBar {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+.progressPaused .barFill {
+  animation-play-state: paused;
+}
+
+.control {
+  width: 24px;
+  height: 24px;
+  margin-left: 2px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  font-size: 8px;
+  line-height: 1;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+}
+
+@media (max-width: 600px) {
+  .art {
+    aspect-ratio: 4 / 5;
+    border-radius: 8px;
+  }
+
+  .titleArt {
+    bottom: 8%;
+    font-size: clamp(1.35rem, 8vw, 2rem);
+  }
+
+  .tags {
+    font-size: 0.76rem;
+  }
+
+  .overview {
+    -webkit-line-clamp: 3;
+    font-size: 0.84rem;
+  }
+
+  .btn {
+    min-height: 44px;
+    font-size: 0.9rem;
+    padding: 10px 12px;
+  }
+
+  /* Three labels will not fit a phone width; the icon carries the meaning. */
+  .list .label,
+  .more .label {
+    display: none;
+  }
+}

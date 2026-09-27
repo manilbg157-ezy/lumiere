@@ -1,0 +1,18 @@
+node_modules/
+dist/
+# Secrets. The blanket pattern also catches .env backups and editor copies
+# (e.g. .env.bak-20260925-172515), which must never be committed.
+.env
+.env.*
+!.env.example
+data/
+
+# Where the app writes at runtime (see README, Storage): the account store, one
+# folder per account, and the sign-in trace. The media root is ~/media/lumiere
+# on a host — which can be this very directory — so these are ignored by name.
+accounts/
+tracing/
+media/
+
+# Editor/agent scratch: not part of the app (holds a project id, nothing else).
+.freebuff/

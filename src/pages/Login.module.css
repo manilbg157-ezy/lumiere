@@ -1,0 +1,115 @@
+/* Shared by /login and /signup — both render <AuthShell> and only differ in the
+   fields they put inside. */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Gender and date of birth, side by side where there is room. */
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+@media (max-width: 460px) {
+  .row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.switch {
+  font-size: 13px;
+  color: var(--text-muted);
+  text-align: center;
+  margin-top: 16px;
+}
+
+.switch a {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid var(--accent-soft);
+  padding-bottom: 1px;
+}
+
+.switch a:hover {
+  color: var(--accent-hover);
+  border-bottom-color: var(--accent-hover);
+}
+
+/* "Forgot your password?" — quiet, and below the primary action so it never
+   competes with Sign in. */
+.forgot {
+  text-align: center;
+  margin-top: 2px;
+}
+
+.forgot a {
+  font-size: 12.5px;
+  color: var(--text-muted);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  padding-bottom: 1px;
+  transition: color 0.18s, border-color 0.18s;
+}
+
+.forgot a:hover {
+  color: var(--accent);
+  border-bottom-color: var(--accent-soft);
+}
+
+/* The consent line under the auth forms, linking the Terms and the Privacy
+   Policy. Quiet by design — it has to be readable, not prominent. */
+.legal {
+  margin-top: 14px;
+  font-size: 11.5px;
+  line-height: 1.55;
+  color: var(--text-dim);
+  text-align: center;
+}
+
+.legal a {
+  color: var(--text-muted);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  padding-bottom: 1px;
+}
+
+.legal a:hover {
+  color: #fff;
+  border-bottom-color: var(--border-hover);
+}
+
+/* "Keep me logged in" — the switch that asks the server for a long-lived
+   session (SESSION_KEEP_DAYS) instead of the default one. */
+.keep {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 13px;
+  color: var(--text-muted);
+  cursor: pointer;
+  user-select: none;
+  margin-top: 2px;
+}
+
+.keep input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--accent);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+/* Confirmation shown after a reset link has been requested. */
+.sent {
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--text-muted);
+  text-align: center;
+  padding: 14px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: var(--radius-sm);
+}

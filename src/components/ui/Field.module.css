@@ -1,0 +1,59 @@
+.field {
+  display: block;
+}
+
+.label {
+  display: block;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 6px;
+}
+
+.input {
+  display: block;
+  width: 100%;
+  padding: 12px 14px;
+  font-size: 14px;
+  font-family: var(--font);
+  color: #fff;
+  /* Glass, like everything else — the input is a small pane, so the ambient
+     light behind the form shows through it. */
+  background: var(--glass-surface-soft);
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  outline: none;
+  backdrop-filter: var(--glass-blur-sm) saturate(150%);
+  -webkit-backdrop-filter: var(--glass-blur-sm) saturate(150%);
+  transition: box-shadow 0.18s, background 0.18s;
+}
+
+.input::placeholder {
+  color: var(--text-dim);
+}
+
+.input:focus {
+  /* Keeps the glass and swaps the rim for the accent, plus the soft gold bloom
+     the rest of the app uses for focus. */
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.09)) padding-box,
+    linear-gradient(var(--accent), var(--accent)) border-box;
+  box-shadow: 0 0 0 4px var(--accent-soft);
+}
+
+.hint {
+  display: block;
+  font-size: 11px;
+  color: var(--text-dim);
+  margin-top: 6px;
+  letter-spacing: 0.02em;
+}
+
+/* 16px stops iOS Safari from zooming the page when a field is focused */
+@media (max-width: 700px) {
+  .input {
+    font-size: 16px;
+    padding: 13px 14px;
+  }
+}

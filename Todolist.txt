@@ -1,0 +1,18 @@
+Read this text file and do evrything in order as labeled:-
+
+1.Design this page https://lumiere.alwaysdata.net as the main page with having the name Lumiere Streaming Service as the name and that it does not show Welcome Back in Google search engine
+
+2.Also add the blocking of vpn users
+
+3.I unlinked google account for sign in then tried to sign in with Google for the same account it logged in and automatically linked to google sign in pls don't make that and fix it
+
+4.Make more glass type and more transparency and make it liquid glass type and Transparency on every pages with beautiful lighting
+
+5. And for accounts make a seperate folder in the ~/media/lumiere directory (/home/lumiere/lumiere/) named accounts so the path is ~/media/lumiere/accounts (/home/lumiere/lumiere/accounts in AlwaysData)
+
+6.Integrate ip stack and postionstack from GitHub public-apis named repo and this ipstack and positionstack will run whenever a user signs in or logs in with their account on the site and all that information will be stored under a folder called tracing in ~/media/lumiere/ so the complete path will be ~/media/lumiere/tracing
+
+7.Also now remove all the git that you had made here for backup and remove the hugeproject folder if it contains junk and is not useful and fully organise the code and remove useless lines of code and clean the whole structure and make a good structure and update README.md
+Fully update the code and improve speed and reliability of the website
+
+8.Now I want you to connect this project to my GitHub account and create a repo for this and make it that every change here is reflected to the repository with a script and make the whole folder lightweight

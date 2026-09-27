@@ -1,0 +1,70 @@
+.wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 13px 16px;
+  margin-bottom: 1.2rem;
+  border: 1px solid rgba(217, 115, 111, 0.3);
+  background: linear-gradient(90deg, rgba(217, 115, 111, 0.14), rgba(217, 115, 111, 0.06));
+  border-radius: var(--radius);
+  backdrop-filter: blur(var(--glass-blur)) saturate(130%);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(130%);
+  box-shadow: var(--glass-inset);
+  animation: fadeSlideIn 0.25s ease;
+}
+
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.compact {
+  padding: 9px 12px;
+  margin-bottom: 0.8rem;
+  font-size: 12px;
+}
+
+.message {
+  font-size: 13px;
+  color: #e0958f;
+  line-height: 1.45;
+}
+
+.retry {
+  margin-left: auto;
+  padding: 7px 16px;
+  min-height: 34px;
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(217, 115, 111, 0.42);
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(var(--glass-blur-sm));
+  -webkit-backdrop-filter: blur(var(--glass-blur-sm));
+  color: #e0958f;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  font-family: var(--font);
+  transition: background 0.18s, color 0.18s;
+  white-space: nowrap;
+}
+
+.retry:hover {
+  background: rgba(217, 115, 111, 0.16);
+  color: #fff;
+}
+
+@media (max-width: 600px) {
+  .wrap {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+    padding: 11px 13px;
+  }
+
+  .retry {
+    margin-left: 0;
+    min-height: 40px;
+    width: 100%;
+  }
+}

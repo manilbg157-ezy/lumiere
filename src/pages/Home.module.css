@@ -1,0 +1,59 @@
+.page {
+  padding-bottom: 1rem;
+}
+
+.heroSkeleton {
+  width: 100%;
+  aspect-ratio: 16 / 11;
+  border-radius: 10px;
+  /* Translucent, like the real surfaces: the shimmer is light moving across
+     glass, not a grey box waiting to be replaced. */
+  background: linear-gradient(100deg, rgba(255, 255, 255, 0.035) 30%, rgba(255, 255, 255, 0.1) 45%, rgba(255, 255, 255, 0.035) 60%);
+  background-size: 300% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+  margin-bottom: 1.7rem;
+}
+
+.rowSkeleton {
+  height: 190px;
+  border-radius: var(--radius-card);
+  background: linear-gradient(100deg, rgba(255, 255, 255, 0.03) 30%, rgba(255, 255, 255, 0.085) 45%, rgba(255, 255, 255, 0.03) 60%);
+  background-size: 300% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  from { background-position: 150% 0; }
+  to { background-position: -50% 0; }
+}
+
+/* "Picked for you from …" — the one line that explains the personalisation
+   instead of doing it invisibly. */
+.personalNote {
+  margin-top: 0.4rem;
+  padding: 10px 2px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 0.78rem;
+  color: var(--text-dim);
+}
+
+.personalNote a {
+  color: var(--text-muted);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.personalNote a:hover {
+  color: #fff;
+}
+
+@media (max-width: 600px) {
+  .heroSkeleton {
+    aspect-ratio: 4 / 5;
+    border-radius: 8px;
+  }
+
+  .rowSkeleton {
+    height: 168px;
+  }
+}
