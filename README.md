@@ -106,6 +106,7 @@ src/
 │   ├── Signup.jsx          # Create account (own page, shares AuthShell)
 │   ├── Forgot.jsx          # Ask for a reset link
 │   ├── Reset.jsx           # Choose a new password (from the emailed link)
+│   ├── Style.jsx           # /style — the design-system showcase
 │   └── *.module.css
 ├── App.jsx                 # Shell (top bar, chips, tab bar) + routing
 ├── App.module.css
@@ -130,13 +131,16 @@ server/
 
 test/
 ├── backend.test.mjs  # auth + proxy + app-backend integration tests (`npm test`)
-└── dist.test.mjs     # verifies the built dist/ (skips without a build)
+├── dist.test.mjs     # verifies the built dist/ (skips without a build)
+└── style.test.mjs    # design-token guards — the glass look, checked like code
 
 .env.example            # template for the optional build-time + server-side keys
 .env                    # your real values (gitignored; the server reads it too)
 
 tools/
 ├── generate-icons.mjs  # app icons (`npm run icons`)
+├── sync-github.sh      # `npm run sync` — commit everything, push
+├── setup-github.sh     # `npm run setup:github` — store the access token, once
 └── avatar-sync.sh      # mirror the profile photos off-box with rclone
 
 docs/
@@ -187,16 +191,18 @@ is, so putting the previous version of the code back still finds its data.
 ## Design system
 
 The look is a Netflix-style OTT dark theme, lit rather than flat: a **black
-canvas with an ambient light layer drifting behind every page, liquid-glass
-surfaces, white text and one accent — the Lumiere brand gold** (`#f0b429`).
-`src/index.css` sets the black background on `html`.
+canvas with an ambient light layer drifting behind every page, shaded
+liquid-glass surfaces, white text and one accent — the Lumiere brand gold**
+(`#f0b429`). `src/index.css` sets the black background on `html`.
 
 Two things make the glass consistent across pages instead of per component:
 
-- **The surface palette is translucent.** `--bg-2`, `--bg-3`, `--bg-card` and
-  `--bg-input` are the fills every panel already used, so turning them into
-  translucent colours makes the whole app see-through at once — no component had
-  to change.
+- **The fills are shaded, not clear.** `--bg-2`, `--bg-3`, `--bg-card` and
+  `--bg-input` are near-opaque dark fills, and `--glass-panel*` sits darker
+  still (0.86–0.94). They are the fills every panel already used, so the whole
+  app changed at once — no component had to. Transparency lives in the blur and
+  the 1px rim, where it reads as glass; in the body of a pane it only ever read
+  as a milky film over the page.
 - **`--glass-surface` bundles the treatment.** A panel adopts the whole thing in
   two lines:
 
@@ -212,20 +218,25 @@ Two things make the glass consistent across pages instead of per component:
 
 The light behind the pages is one fixed layer (`.ambient` in `src/index.css`),
 painted once and animated on the compositor with `transform` only, so it costs
-nothing per frame or per scroll. It is what the translucent panels refract; it is
-held still under `prefers-reduced-motion: reduce`, and the panels go nearly
+nothing per frame or per scroll. It is what the glass refracts; it is
+held still under `prefers-reduced-motion: reduce`, and the panels go fully
 opaque under `prefers-contrast: more`, because legibility outranks the effect.
+
+Every surface is demonstrated on **`/style`** — a public page, deliberately left
+out of the sitemap — so after a token change the whole system can be checked at
+one URL instead of by clicking through the app.
 
 Tokens (all in `:root`) — use these instead of raw colours:
 
 | Token | Use |
 |---|---|
-| `--bg`, `--bg-2`, `--bg-3`, `--bg-card`, `--bg-input` | the black canvas and its raised surfaces (all translucent except `--bg`) |
+| `--bg`, `--bg-2`, `--bg-3`, `--bg-card`, `--bg-input` | the black canvas and its raised surfaces (all near-opaque dark except `--bg`) |
 | `--glass`, `--glass-2` | plain translucent fills: chips, hover states, input wells |
-| `--glass-panel`, `--glass-panel-strong`, `--glass-panel-soft` | the fill inside a glass surface, by how much has to stay legible on it |
-| `--glass-surface`, `--glass-surface-strong`, `--glass-surface-soft` | the whole treatment: top sheen + transluent fill + refracting gradient rim |
+| `--glass-panel`, `--glass-panel-strong`, `--glass-panel-soft` | the fill inside a glass surface, 0.86–0.94 dark — chosen by how much has to stay legible on it |
+| `--glass-surface`, `--glass-surface-strong`, `--glass-surface-soft` | the whole treatment: top sheen + shaded near-opaque fill + refracting gradient rim |
 | `--glass-filter`, `--glass-filter-lg` | the `backdrop-filter` to pair with a surface (blur + saturate + a touch of brightness) |
 | `--glass-glow` | the faint inner light that keeps a large panel from looking grey |
+| `--glass-sheen`, `--glass-edge`, `--glass-edge-soft` | the top light and the two refracting rims a `--glass-surface*` is assembled from |
 | `--light-gold`, `--light-warm`, `--light-cool`, `--light-rose` | the ambient layer's four washes |
 | `--glass-border`, `--glass-border-hi`, `--border`, `--border-hover` | hairlines; `-hi`/`-hover` for hover |
 | `--text`, `--text-muted`, `--text-dim` | the three text weights |
@@ -237,8 +248,9 @@ Tokens (all in `:root`) — use these instead of raw colours:
 Rules of thumb: `--accent` is a light gold, so never lay white text on it — use
 `--accent-ink`. The blur steps are `--glass-blur-sm` (12px), `--glass-blur`
 (22px) and `--glass-blur-lg` (34px), baked into `--glass-filter*`. Because
-`backdrop-filter` only blurs what is *behind* the element, a panel needs a
-translucent fill as well as the blur, and any animated transition should be on
+`backdrop-filter` only blurs what is *behind* the element, a panel needs a dark,
+near-opaque fill as well as the blur — a thin translucent fill there is exactly
+what made the old panels read as film — and any animated transition should be on
 `opacity`/`background`/`box-shadow` rather than on `backdrop-filter` itself (it
 is expensive to animate). Individual surfaces still set their own blur where the
 whole 22px would be too heavy — a search field or a chip, say. Never put text
@@ -307,9 +319,9 @@ render the same build.
   nothing. See the honest note below about what a WebView can and cannot store
 - **Onboarding** (`/welcome`) — splash, then the app name and description with
   **Sign up** / **Sign in** in the lower half and a **Keep me logged in** switch
-- Black canvas, flat grey chips, one accent (`--accent`, now the brand gold
-  `#f0b429`). Every CSS variable name was kept, so component stylesheets
-  survived both the restyle and the rename
+- Black canvas, glass chips, one accent (`--accent`, the brand gold `#f0b429`).
+  Every CSS variable name was kept, so component stylesheets survived both the
+  restyle and the rename
 - `/login` and `/signup` as separate pages sharing one auth shell, both with the
   **Keep me logged in** switch and — when the server holds Google
   credentials — a **Continue with Google** button
@@ -433,6 +445,7 @@ render the same build.
 | `/signup` | Create an account (its own page) | No |
 | `/forgot` | Ask for a password-reset link | No |
 | `/reset/:token` | Choose a new password (token from the emailed link) | No |
+| `/style` | Design-system showcase — every glass surface on one screen | No |
 
 The account-scoped screens set `noindex, nofollow` themselves (`src/lib/seo.js`),
 and `/sitemap.xml` lists `/`, `/movies`, `/tv`, `/new` plus every title — so the
@@ -469,7 +482,7 @@ config needed.
    with `EIO` because the home directory can't create symlinks, so skip it.
 
 Notes:
-- Accounts are stored in `data/accounts.json` and sessions in `data/sessions.json` on the server — `data/` is gitignored, so create it there or let the app create it on first signup.
+- Accounts and sessions are stored under the media root's `accounts/` directory — set `LUMIERE_MEDIA_DIR` (`/home/lumiere/lumiere` on AlwaysData; see **Storage**). The runtime directories are gitignored and created on the first boot.
 - Sessions are HttpOnly cookies holding an opaque 256-bit token. Only the token's SHA-256 is persisted, sessions survive a restart, and logging out revokes the session server-side.
 - The five embed servers need no backend and work on shared hosting as-is. The direct-stream backends (`/tmbea`, `/cinepro`) don't exist there: set `TMDBEA_UPSTREAM` / `CINEPRO_UPSTREAM` if you run TMDB-Embed-API (`:8787`) or CinePro (`:3000`) somewhere reachable, otherwise those routes answer 503 and only the embed chips show.
 - `GET /healthz` is a bare liveness probe — `{ ok, uptimeSec }` and nothing else — so it is safe to leave public for an uptime checker. The operator diagnostics (data directory on disk, mailbox host, circuit-breaker state, rate-limit ceilings, the probe's own cookie names) are unlocked by setting `HEALTH_TOKEN`: with it set, the probe must send `x-health-token: <value>` (or `?token=<value>`) and anything else gets 401. `storage.writable` being false is the usual reason signups fail on shared hosting — see **Reliability** below.
@@ -618,6 +631,9 @@ single-process app down, and to say why when it can't.
   `storage.writable: false`, and the change is logged once.
 - **Logs can't flood.** Identical errors inside `LOG_DEDUPE_MS` collapse into one
   line with a suppressed count.
+- **The API namespace answers JSON, always.** An unknown `/api/…` path is a JSON
+  404, never the site's HTML shell with a misleading 200 — a client asking for
+  data can trust the content type.
 
 `GET /healthz` answers in one of two shapes, and which one you get is the whole
 point of `HEALTH_TOKEN`.
@@ -687,6 +703,15 @@ is unreachable and both still have to work.
 that assets/icons carry the right content types and caching, and that a complete
 sign-up → session → password change → logout round trip works on it. It skips
 itself when there is no build, so a fresh checkout still passes.
+
+`test/style.test.mjs` checks the design system itself — the look, as code. The
+glass tokens are pinned to the shaded, near-opaque values (panel fills dark and
+at least 0.85 alpha, sheen at most 0.06 white, no panel-scale white fills — the
+functional exceptions are named, with reasons, in the file), the
+`prefers-contrast: more` override must stay stronger than the default, and every
+`var(--…)` used anywhere must resolve to a defined token. It is why the milky,
+half-transparent look cannot quietly come back: an edit that reintroduces it
+fails the suite instead of shipping. All three suites together: 127 tests.
 
 ## Icons
 
@@ -941,7 +966,9 @@ hashes; this closes the remaining gap: the plaintext that was left.
 
 This repository is a fresh one — the throwaway history that used to sit here (two
 "backup" commits against a hundred uncommitted files) was removed, because it
-tracked nothing useful and everything it held is in the working tree. What is
+tracked nothing useful and everything it held is in the working tree. It lives
+at **https://github.com/manilbg157-ezy/lumiere**, and the local `main` is kept
+level with `origin/main` by the sync below. What is
 committed now is the project as it stands, with `.gitignore` deciding what never
 goes up: `node_modules/`, `dist/` (a build output — deploy by uploading it),
 `.env` and every `.env.*` except the example, `data/`, and the runtime directories
@@ -963,7 +990,11 @@ credential helper (`store`, in `~/.git-credentials`), checks it against
 GitHub, and then never asks again. The token lives only on this machine;
 it never enters the repository, and you can revoke it at any time on the
 same GitHub page. (On macOS the helper is `osxkeychain` instead of `store`;
-everything else is the same.)
+everything else is the same.) Where nothing can be typed into a prompt — a web
+command runner, CI — pass the token on the command line instead:
+`GH_TOKEN=<token> npm run setup:github`. Running setup again with a new token
+simply replaces the stored one, which is also the cure for a token created
+without the right scope.
 
 Prefer to do it by hand? `git config --global credential.helper store` and
 let the first `npm run sync` prompt you — the script's only job is to make
@@ -981,6 +1012,19 @@ npm run sync -- "Add the tracing screen"
 GitHub has commits this copy does not, it prints the `git pull --rebase` line
 instead of overwriting anything. Nothing about this is needed to *deploy*; the
 site runs from an uploaded `dist/` (see **Deploying to AlwaysData**).
+
+### If a push is refused
+
+The script names the cause instead of guessing:
+
+- **No stored credential** → run `npm run setup:github` (above).
+- **`Permission to … denied` (403)** → the token is valid but cannot write: a
+  classic token needs the **`repo`** scope ticked; a fine-grained token needs
+  this repository selected with **Contents: read and write**. Classic scopes can
+  be edited on the token itself; fine-grained ones cannot, so create a new one
+  and run `GH_TOKEN=<new-token> npm run setup:github` to replace it.
+- **Anything else** → GitHub has commits this copy does not; run the printed
+  `git pull --rebase origin main`, then sync again.
 
 ## Sign-in trace, and VPN detection
 
