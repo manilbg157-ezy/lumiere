@@ -1,0 +1,192 @@
+/* The /style showcase. It borrows the real tokens only — nothing here sets a
+   color or blur by hand, so the page can never drift from the system it
+   demonstrates. Layout is page-local. */
+
+.page {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 24px 20px 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.h1 {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.sub {
+  color: var(--text-muted);
+  font-size: 0.92rem;
+  line-height: 1.55;
+  max-width: 62ch;
+}
+
+.sub code,
+.label code,
+.footer code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.82em;
+  background: var(--bg-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 1px 5px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.demo {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+}
+
+/* The four surface treatments, at their real tokens. */
+.panel {
+  min-height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
+  background: var(--glass-surface);
+  -webkit-backdrop-filter: var(--glass-filter);
+  backdrop-filter: var(--glass-filter);
+  box-shadow: var(--glass-shadow), var(--glass-inset), var(--glass-glow);
+  border-radius: var(--radius-lg);
+  font-weight: 600;
+}
+
+.strong {
+  background: var(--glass-surface-strong);
+  -webkit-backdrop-filter: var(--glass-filter-lg);
+  backdrop-filter: var(--glass-filter-lg);
+}
+
+.soft {
+  background: var(--glass-surface-soft);
+  box-shadow: var(--glass-shadow);
+}
+
+.plain {
+  min-height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  font-weight: 600;
+}
+
+.label {
+  color: var(--text-dim);
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+
+.controls {
+  min-height: 120px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.chip {
+  padding: 7px 15px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #fff;
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-pill);
+}
+
+.chipActive {
+  padding: 7px 15px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #000;
+  background: var(--chip-active);
+  border-radius: var(--radius-pill);
+}
+
+.ghost {
+  padding: 8px 16px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #fff;
+  background: var(--glass-2);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+}
+
+.gold {
+  padding: 8px 16px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--accent-ink);
+  background: var(--accent);
+  border-radius: var(--radius);
+}
+
+.type {
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.text { color: var(--text); }
+.muted { color: var(--text-muted); }
+.dim { color: var(--text-dim); }
+
+.palette {
+  min-height: 120px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.palette span {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid var(--glass-border);
+}
+
+.goldSwatch { background: var(--accent); }
+.glassSwatch { background: var(--glass); }
+.panelSwatch { background: var(--glass-panel); border-color: var(--glass-border-hi); }
+.darkSwatch { background: var(--bg); }
+
+.footer {
+  border-top: 1px solid var(--border);
+  padding-top: 14px;
+}

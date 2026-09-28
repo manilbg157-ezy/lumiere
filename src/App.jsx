@@ -14,6 +14,7 @@ import Title from './pages/Title.jsx'
 import History from './pages/History.jsx'
 import Terms from './pages/Terms.jsx'
 import Privacy from './pages/Privacy.jsx'
+import Style from './pages/Style.jsx'
 import CompleteProfile from './pages/CompleteProfile.jsx'
 import Settings from './pages/Settings.jsx'
 import Link from './components/Link.jsx'
@@ -353,6 +354,8 @@ export default function App() {
       // Public legal pages — readable signed in or out.
       case 'terms': return <Terms />
       case 'privacy': return <Privacy />
+      // The design-system showcase (public, but not in the sitemap).
+      case 'style': return <Style />
       case 'title': return (
         <Title
           key={`${route.type}-${route.id}`}

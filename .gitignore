@@ -16,3 +16,6 @@ media/
 
 # Editor/agent scratch: not part of the app (holds a project id, nothing else).
 .freebuff/
+
+# Vite writes this while compiling the config; it must never be tracked.
+vite.config.js.timestamp-*.mjs

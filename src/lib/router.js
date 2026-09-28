@@ -82,6 +82,10 @@ export function parseRoute(pathname) {
       case 'my-list': return { name: 'myList', path: '/my-list' }
       case 'search': return { name: 'search', path: '/search' }
       case 'my-home': return { name: 'profile', path: '/my-home' }
+      // The design-system showcase — every glass surface on one screen, for
+      // checking the look without clicking through the whole app. Kept out of
+      // the sitemap on purpose; see siteRoutes.js.
+      case 'style': return { name: 'style', path: '/style' }
       // The account screen — email, Google, profile, deletion. Its own page, like
       // the legal screens, so a link to it is shareable and the back button works.
       case 'settings': return { name: 'settings', path: '/settings' }

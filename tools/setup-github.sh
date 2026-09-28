@@ -42,9 +42,8 @@ echo "Remote: $remote"
 if printf 'protocol=https\nhost=github.com\n' \
      | GIT_TERMINAL_PROMPT=0 git credential fill 2>/dev/null \
      | grep -q '^password='; then
-  echo "A GitHub token is already stored; it will be REPLACED by the new one.
+  echo "A GitHub token is already stored; the new one will replace it.
 (Handy when a token lacked the 'repo' scope, or when rotating tokens.)"
-  replacing=1
 fi
 
 token="${GH_TOKEN:-}"

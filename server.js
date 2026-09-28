@@ -789,6 +789,15 @@ async function route(req, res) {
     return handleAuth(req, res, pathname, { trustProxy: TRUST_PROXY })
   }
 
+  // The API namespace answers JSON, always. An unknown /api/ path must not
+  // fall through to the SPA fallback: a client asking for JSON would receive
+  // the site's HTML shell and read a 200. Every API this app has lives under
+  // /api/auth/, handled above — this guard keeps future typos loud instead
+  // of silently returning a page.
+  if (pathname === '/api' || pathname.startsWith('/api/')) {
+    return send(res, 404, { error: 'Not found.' })
+  }
+
   // The Android app's backend. Same process, same data stores, same limits.
   if (pathname === '/androidpushservice' || pathname.startsWith('/androidpushservice/')) {
     return handleAndroidPushService(req, res, pathname, { trustProxy: TRUST_PROXY })
