@@ -127,7 +127,9 @@
   padding: 12px 16px;
   border-left: 3px solid var(--accent);
   border-radius: var(--radius);
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.03));
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02)),
+    rgba(24, 24, 28, 0.8);
   box-shadow: var(--glass-inset);
   color: var(--text-muted);
 }

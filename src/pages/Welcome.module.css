@@ -199,10 +199,11 @@
 }
 
 .ghost {
-  /* Glass, so the light behind the screen shows through the button. */
+  /* Glass, but shaded: a dark fill with a hint of top light, not a clear
+     pane — the light behind it reads through the rim, not the body. */
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.03)),
-    linear-gradient(rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.03));
+    linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.02)),
+    linear-gradient(rgba(24, 24, 28, 0.82), rgba(24, 24, 28, 0.82));
   -webkit-backdrop-filter: blur(var(--glass-blur-sm)) saturate(150%);
   backdrop-filter: blur(var(--glass-blur-sm)) saturate(150%);
   color: #fff;
@@ -211,8 +212,8 @@
 
 .ghost:hover {
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.17), rgba(255, 255, 255, 0.07)),
-    linear-gradient(rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05));
+    linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.04)),
+    linear-gradient(rgba(24, 24, 28, 0.88), rgba(24, 24, 28, 0.88));
 }
 
 .browse {

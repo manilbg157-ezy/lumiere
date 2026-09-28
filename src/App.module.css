@@ -520,10 +520,10 @@
   font-size: 13.5px;
   font-weight: 600;
   color: #fff;
-  /* Sheen over a translucent fill, plus a refracting rim — a small pane. */
+  /* Sheen over a shaded dark fill, plus a refracting rim — a small pane. */
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.05)),
-    linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1)) padding-box,
+    linear-gradient(180deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.035)),
+    linear-gradient(rgba(24, 24, 28, 0.82), rgba(24, 24, 28, 0.82)) padding-box,
     var(--glass-edge-soft) border-box;
   -webkit-backdrop-filter: blur(var(--glass-blur-sm)) saturate(150%);
   backdrop-filter: blur(var(--glass-blur-sm)) saturate(150%);
@@ -537,8 +537,8 @@
 
 .chip:hover {
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.07)),
-    linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1)) padding-box,
+    linear-gradient(180deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.04)),
+    linear-gradient(rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.06)) padding-box,
     var(--glass-edge-soft) border-box;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3), var(--glass-inset);
 }
@@ -620,8 +620,8 @@
 .tabActive {
   color: #fff;
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.05)),
-    linear-gradient(rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.06));
+    linear-gradient(180deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.04)),
+    linear-gradient(rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05));
   box-shadow: var(--glass-inset);
 }
 

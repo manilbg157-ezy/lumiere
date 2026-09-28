@@ -25,10 +25,13 @@
   --bg: #000000;
   /* Translucent, but dark enough that white text on any of them still passes
      contrast even when a bright poster is behind the panel. */
-  --bg-2: rgba(22, 22, 26, 0.55);
-  --bg-3: rgba(30, 30, 34, 0.55);
-  --bg-card: rgba(22, 22, 26, 0.5);
-  --bg-input: rgba(34, 34, 38, 0.5);
+  /* Nearly opaque. The earlier half-transparent fills let too much of the
+     page bleed through and read as a milky film; a mostly-solid, shaded
+     surface with a blurred edge is what reads as smoked glass. */
+  --bg-2: rgba(22, 22, 26, 0.85);
+  --bg-3: rgba(30, 30, 34, 0.85);
+  --bg-card: rgba(22, 22, 26, 0.82);
+  --bg-input: rgba(30, 30, 34, 0.85);
   --border: rgba(255, 255, 255, 0.16);
   --border-hover: rgba(255, 255, 255, 0.4);
 
@@ -38,13 +41,15 @@
      for a panel: sheen, fill and a gradient border that refracts like the rim
      of a real pane. The two-layer background-image trick is what allows a
      gradient edge on a rounded corner without a pseudo-element. */
-  --glass: rgba(255, 255, 255, 0.11);
-  --glass-2: rgba(255, 255, 255, 0.16);
-  /* Fills sit darker than before: the glass should read as dark glass with a
-     hint of light, not a milky white pane. */
-  --glass-panel: rgba(16, 16, 20, 0.68);
-  --glass-panel-strong: rgba(10, 10, 12, 0.82);
-  --glass-panel-soft: rgba(255, 255, 255, 0.04);
+  --glass: rgba(255, 255, 255, 0.08);
+  --glass-2: rgba(255, 255, 255, 0.12);
+  /* The panels are shaded, not clear: a near-solid dark fill with a faint
+     top light. Transparency stays in the blur and the 1px rim, where it
+     reads as glass, rather than in the body of the pane, where it read as
+     a white film over the page. */
+  --glass-panel: rgba(16, 16, 20, 0.88);
+  --glass-panel-strong: rgba(10, 10, 12, 0.94);
+  --glass-panel-soft: rgba(24, 24, 28, 0.86);
   --glass-border: rgba(255, 255, 255, 0.18);
   --glass-border-hi: rgba(255, 255, 255, 0.42);
   --glass-blur-sm: 12px;
@@ -54,9 +59,9 @@
      rather than as a grey smear over artwork. */
   --glass-filter: blur(var(--glass-blur)) saturate(150%) brightness(1.02);
   --glass-filter-lg: blur(var(--glass-blur-lg)) saturate(160%) brightness(1.03);
-  --glass-sheen: linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.02) 38%, rgba(255, 255, 255, 0) 72%);
-  --glass-edge: linear-gradient(150deg, rgba(255, 255, 255, 0.34), rgba(255, 255, 255, 0.05) 26%, rgba(255, 255, 255, 0.02) 52%, rgba(255, 255, 255, 0.2));
-  --glass-edge-soft: linear-gradient(150deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.04) 40%, rgba(255, 255, 255, 0.11));
+  --glass-sheen: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.015) 38%, rgba(255, 255, 255, 0) 72%);
+  --glass-edge: linear-gradient(150deg, rgba(255, 255, 255, 0.26), rgba(255, 255, 255, 0.05) 26%, rgba(255, 255, 255, 0.02) 52%, rgba(255, 255, 255, 0.16));
+  --glass-edge-soft: linear-gradient(150deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.04) 40%, rgba(255, 255, 255, 0.09));
   /* Usage: background: var(--glass-surface); border: 1px solid transparent; */
   --glass-surface: var(--glass-sheen), linear-gradient(var(--glass-panel), var(--glass-panel)) padding-box, var(--glass-edge) border-box;
   --glass-surface-strong: var(--glass-sheen), linear-gradient(var(--glass-panel-strong), var(--glass-panel-strong)) padding-box, var(--glass-edge) border-box;
@@ -69,10 +74,10 @@
   /* The colours of the light layer behind every page. Gold leads (it is the
      brand accent); the cooler and warmer washes keep it from reading as a
      single flat tint. See .ambient below. */
-  --light-gold: rgba(240, 180, 41, 0.2);
-  --light-warm: rgba(255, 226, 178, 0.1);
-  --light-cool: rgba(120, 166, 255, 0.12);
-  --light-rose: rgba(255, 110, 160, 0.09);
+  --light-gold: rgba(240, 180, 41, 0.16);
+  --light-warm: rgba(255, 226, 178, 0.08);
+  --light-cool: rgba(120, 166, 255, 0.1);
+  --light-rose: rgba(255, 110, 160, 0.07);
 
   /* ---- text --------------------------------------------------------------- */
   --text: #ffffff;
@@ -240,14 +245,16 @@ h1, h2, h3 {
     --text-dim: #b0b0b0;
     --glass: rgba(255, 255, 255, 0.15);
     --glass-2: rgba(255, 255, 255, 0.22);
-    /* Nearly opaque panels and no coloured light: when a visitor asks for more
-       contrast, legibility beats the effect. */
-    --glass-panel: rgba(14, 14, 16, 0.86);
-    --glass-panel-strong: rgba(10, 10, 12, 0.92);
-    --bg-2: rgba(20, 20, 22, 0.86);
-    --bg-3: rgba(24, 24, 26, 0.86);
-    --bg-card: rgba(20, 20, 22, 0.86);
-    --bg-input: rgba(28, 28, 30, 0.86);
+    --glass-panel-soft: rgba(22, 22, 26, 0.97);
+    /* Fully opaque panels and no coloured light: when a visitor asks for more
+       contrast, legibility beats the effect. These sit above the defaults, so
+       the override stays an override. */
+    --glass-panel: rgba(12, 12, 14, 0.97);
+    --glass-panel-strong: rgba(8, 8, 10, 0.98);
+    --bg-2: rgba(20, 20, 22, 0.97);
+    --bg-3: rgba(24, 24, 26, 0.97);
+    --bg-card: rgba(20, 20, 22, 0.97);
+    --bg-input: rgba(28, 28, 30, 0.97);
     --light-gold: rgba(240, 180, 41, 0.1);
     --light-warm: rgba(255, 226, 178, 0.05);
     --light-cool: rgba(120, 166, 255, 0.06);
